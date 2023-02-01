@@ -98,7 +98,7 @@ rasa/keys
 .netlify
 .rasactl
 rei.sh
-pyenv.cfg
+pyvenv.cfg
 
 # Temporary
 /rasax
