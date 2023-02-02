@@ -45,8 +45,6 @@ My own projects so far have always required deploying Rasa (X) on a self-hosted 
 
 The situation has gotten even worse since summer 2022, because Rasa X is no longer supported in the free version. So I tried to use the latest compatible and free versions.
 
-Translated with www.DeepL.com/Translator (free version)
-
 This repository is for you if you
 <ol>
     <li>are frustrated because you just can't get Rasa (X) to deploy properly and/or</li>
