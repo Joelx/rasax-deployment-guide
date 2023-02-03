@@ -23,5 +23,6 @@ class ActionHelloWorld(Action):
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
 
         dispatcher.utter_message(text="Hello World!")
+        dispatcher.utter_message(test="Hello back!")
 
         return []
