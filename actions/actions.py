@@ -26,3 +26,4 @@ class ActionHelloWorld(Action):
         dispatcher.utter_message(test="Hello back!")
 
         return []
+
