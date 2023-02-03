@@ -26,6 +26,6 @@ jobs:
         # https://docs.github.com/en/actions/reference/context-and-expression-syntax-for-github-actions#github-context
         #
         # github.sha - The commit SHA that triggered the workflow run
-        #docker_image_tag: ${{ github.sha }}
-        docker_image_tag: "latest"
+        docker_image_tag: ${{ github.sha }}
+        #docker_image_tag: "latest"
         requirements_file: 'actions/requirements.txt'
