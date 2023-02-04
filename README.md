@@ -130,7 +130,6 @@ I would recommend starting with a freshly installed Ubuntu machine. However, if 
 
 ### Prerequisites
 
-This is an example of how to list things you need to use the software and how to install them.
 1. Install snapd packaging system, Docker and tge microk8s cluster distribution
   ```sh
   sudo apt update
@@ -154,12 +153,12 @@ sudo chown -f -R $USER ~/.kube
 ```sh
 microk8s enable dns storage helm3 registry dashboard ingress
 ```  
-dns: enable DNS and service discovery between pods
-storage: enable dynamic volume storage provisioning
-helm3: enable helm package manager
-registry: enable container registry to store and distribute images
-dashboard: enable Kubernetes Dashboard
-ingress: enable ingress(-nginx) to make cluster reachable externally 
+<b>dns:</b> enable DNS and service discovery between pods<br/>
+<b>storage:</b> enable dynamic volume storage provisioning<br/>
+<b>helm3:</b> enable helm package manager<br/>
+<b>registry:</b> enable container registry to store and distribute images<br/>
+<b>dashboard:</b> enable Kubernetes Dashboard<br/>
+<b>ingress:</b> enable ingress(-nginx) to make cluster reachable externally 
 4. Apply kube config
 ```sh
 cd $HOME/.kube
