@@ -39,7 +39,6 @@ lastmile_ai/learn/plots/
 .idea/
 .venv/
 .venv_tf/
-.images/
 venv/
 venv_tf/
 images/
