@@ -186,11 +186,20 @@ kubectl create namespace rasax
 ```sh
 helm repo add rasa-x https://rasahq.github.io/rasa-x-helm
 ```
-3. Install the Helm Chart into our namespace. Note that we also chose a custom release name: <i>rasax-release</i>
+3. Install the Helm Chart into our namespace. Note that we also chose a custom release name: <i>rasax-release</i>.
 ```sh
 helm --namespace rasax install --values rasax/basic-values.yml rasax-release rasa-x/rasa-x
 ```
-
+4. Now the best part after installing a Helm Chart! Go ahead and check how your containers are creating and your pods are coming to life!
+```sh
+kubectl -n rasax get pods
+```
+[![Pods of Rasa X Helm Chart Creating][Pod1-image]]
+5. Likewise you can check 
+```sh
+kubectl -n rasax get pods
+```
+[![Pods of Rasa X Helm Chart Creating][Service1-image]]
 
 1. Get a free API Key at [https://example.com](https://example.com)
 2. Clone the repo
@@ -297,6 +306,9 @@ Use this space to list resources you find helpful and would like to give credit 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
 [Rasa-url]: https://rasa.com/
+[Pod1-image]: images/pods1.png
+[Services1-image]: images/services1.png
+
 [contributors-shield]: https://img.shields.io/github/contributors/othneildrew/Best-README-Template.svg?style=for-the-badge
 [contributors-url]: https://github.com/othneildrew/Best-README-Template/graphs/contributors
 [forks-shield]: https://img.shields.io/github/forks/othneildrew/Best-README-Template.svg?style=for-the-badge
