@@ -47,10 +47,10 @@ The situation has gotten even worse since summer 2022, because Rasa X is no long
 
 This repository is for you if you
 <ol>
-    <li>are frustrated because you just can't get Rasa (X) to deploy properly and/or</li>
-    <li>want to install Rasa (X) on a "normal" Ubuntu server and/or</li>
+    <li>are frustrated because you just can't get Rasa (X) to deploy properly</li>
+    <li>want to install Rasa (X) on a "normal" Ubuntu server</li>
     <li>want to have more control over your deployment</li>
-    <li>would like to make your chatbot accessible via a website/web service and/or</li>
+    <li>would like to make your chatbot accessible via a website/web service</li>
     <li>have a small to medium sized project and would like to use a single server for Rasa and Rasa X.</li>
 </ol>
     <br />
@@ -100,16 +100,7 @@ This repository is for you if you
 
 [![Product Name Screen Shot][product-screenshot]](https://example.com)
 
-There are many great README templates available on GitHub; however, I didn't find one that really suited my needs so I created this enhanced one. I want to create a README template so amazing that it'll be the last one you ever need -- I think this is it.
-
-Here's why:
-* Your time should be focused on creating something amazing. A project that solves a problem and helps others
-* You shouldn't be doing the same tasks over and over like creating a README from scratch
-* You should implement DRY principles to the rest of your life :smile:
-
-Of course, no one template will serve all projects since your needs may be different. So I'll be adding more in the near future. You may also suggest changes by forking this repo and creating a pull request or opening an issue. Thanks to all the people have contributed to expanding this template!
-
-Use the `BLANK_README.md` to get started.
+This guide explains how to build a Rasa Open Source and Rasa X production deployment on a "bare-metal" Ubuntu (root) Server. The repository contains all necessary configuration files, as well as a Rasa Demo-Bot and a Demo-Website. You can either use specific configurations as a reference for your own deployment, or you can follow this guide step-by-step. 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -119,7 +110,7 @@ Use the `BLANK_README.md` to get started.
 
 This section should list any major frameworks/libraries used to bootstrap your project. Leave any add-ons/plugins for the acknowledgements section. Here are a few examples.
 
-* [![Next][Next.js]][Next-url]
+* [![Rasa][Rasa]][Rasa-url]
 * [![React][React.js]][React-url]
 * [![Vue][Vue.js]][Vue-url]
 * [![Angular][Angular.io]][Angular-url]
@@ -135,20 +126,51 @@ This section should list any major frameworks/libraries used to bootstrap your p
 <!-- GETTING STARTED -->
 ## Getting Started
 
-This is an example of how you may give instructions on setting up your project locally.
-To get a local copy up and running follow these simple example steps.
+I would recommend starting with a freshly installed Ubuntu machine. However, if you have running other tasks on your machine, please be aware that following this setup may interfere with your networking services.
 
 ### Prerequisites
 
 This is an example of how to list things you need to use the software and how to install them.
-* npm
+1. Install snapd packaging system, Docker and tge microk8s cluster distribution
   ```sh
-  npm install npm@latest -g
+  sudo apt update
+  sudo apt install snapd
+  sudo apt install docker.io docker-compose
   ```
 
 ### Installation
-
+#### microk8s
 _Below is an example of how you can instruct your audience on installing and setting up your app. This template doesn't rely on any external dependencies or services._
+1. Install microk8s via snap
+```sh
+sudo snap install microk8s --classic
+```
+2. Add microk8s user to avoid sudo 
+```sh
+sudo usermod -a -G microk8s $USER
+sudo chown -f -R $USER ~/.kube
+```
+3. Enable microk8s addons.  
+```sh
+microk8s enable dns storage helm3 registry dashboard ingress
+```  
+dns: enable DNS and service discovery between pods
+storage: enable dynamic volume storage provisioning
+helm3: enable helm package manager
+registry: enable container registry to store and distribute images
+dashboard: enable Kubernetes Dashboard
+ingress: enable ingress(-nginx) to make cluster reachable externally 
+4. Apply kube config
+```sh
+cd $HOME/.kube
+microk8s config > config
+```
+5. Register alias for microk8s.kubectl and microk8s.helm3
+```sh
+sudo snap alias microk8s.kubectl kubectl
+sudo snap alias microk8s.helm3 helm
+```
+
 
 1. Get a free API Key at [https://example.com](https://example.com)
 2. Clone the repo
@@ -254,6 +276,7 @@ Use this space to list resources you find helpful and would like to give credit 
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
+[Rasa-url]: https://rasa.com/
 [contributors-shield]: https://img.shields.io/github/contributors/othneildrew/Best-README-Template.svg?style=for-the-badge
 [contributors-url]: https://github.com/othneildrew/Best-README-Template/graphs/contributors
 [forks-shield]: https://img.shields.io/github/forks/othneildrew/Best-README-Template.svg?style=for-the-badge
@@ -268,6 +291,7 @@ Use this space to list resources you find helpful and would like to give credit 
 [linkedin-url]: https://linkedin.com/in/othneildrew
 [product-screenshot]: images/screenshot.png
 [Next.js]: https://img.shields.io/badge/next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white
+
 [Next-url]: https://nextjs.org/
 [React.js]: https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB
 [React-url]: https://reactjs.org/
