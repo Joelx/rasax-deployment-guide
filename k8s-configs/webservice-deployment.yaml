@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rasa-webservice
+  namespace: rasax
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rasa-webservice
+  template:
+    metadata:
+      labels:
+        app: rasa-webservice
+    spec:
+      containers:
+        - name: rasa-webservice
+          image: rasa-webservice:local
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 80

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Chatbot</title>
+</head>
+<body> 
+	<div id="rasaWebchatPro"></div>
+	<script>
+		!(function () {
+		 let e = document.createElement("script"),
+		t = document.head || document.getElementsByTagName("head")[0];
+		(e.src =
+		"static/js/webchat.js"),
+		(e.async = !0),
+		(e.onload = () => {
+		window.WebChat.default(
+		{
+		  initPayload: '/greet',
+		  customData: { language: "en" },
+		  socketUrl: location.hostname + ":8000", // Remove this line when using SSL/TLS
+		  // Uncomment the next two lines when using SSL/TLS
+          //socketUrl: location.hostname, 
+		  //socketPath: "/rasax/socket.io/",
+		  title: 'My Chatbot',
+		  subtitle: 'My Subtitle',
+		  profileAvatar: "static/images/sara_avatar.png",
+		  inputTextFieldHint: 'Type here...',
+		},
+		null
+	  );
+		}),
+		t.insertBefore(e, t.firstChild);           
+	})();
+</script>
+</body>
+</html>

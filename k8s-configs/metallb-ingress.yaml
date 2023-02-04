@@ -1,0 +1,22 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: rasa-x-ingress
+  annotations:
+    ingress.kubernetes.io/rewrite-target: /
+    metallb.universe.tf/allow-shared-ip: rasa-x-loadbalancer
+spec:
+  rules:
+  - host: EXAMPLE.COM
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: rasa-x-service
+            port: { name: http }
+  tls:
+  - hosts:
+    - EXAMPLE.COM
+    secretName: rasa-x-tls-secret

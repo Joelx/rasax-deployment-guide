@@ -43,7 +43,6 @@ lastmile_ai/learn/plots/
 venv/
 venv_tf/
 images/
-.rasax/
 .trial_results.db
 trial_results.db
 *.iml
@@ -93,12 +92,13 @@ env
 rasa/segment_key
 rasa/keys
 .rasa
+/certificates
 /results/
 # Local Netlify folder
 .netlify
 .rasactl
 rei.sh
 pyvenv.cfg
-
+rasa-webservice.tar
+*.tar
 # Temporary
-/rasax

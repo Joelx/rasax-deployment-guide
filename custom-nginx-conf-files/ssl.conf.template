@@ -1,0 +1,7 @@
+# This is an example SSL configuration
+# Uncomment and adapt for your deployment as needed
+listen                  8000 ssl;
+
+server_name           EXAMPLE.COM;
+ssl_certificate         /etc/nginx/certs/tls.crt;
+ssl_certificate_key     /etc/nginx/certs/tls.key;

@@ -19,7 +19,7 @@ jobs:
       uses: RasaHQ/action-server-gha@main
       # Full list of parameters: https://github.com/RasaHQ/action-server-gha/tree/master#input-arguments
       with:
-        docker_image_name: 'joes4/example-action-server'
+        docker_image_name: '<YOUR-DOCKER-HUB-USERNAME>/example-action-server'
         docker_registry_login: ${{ secrets.DOCKER_HUB_LOGIN }}
         docker_registry_password: ${{ secrets.DOCKER_HUB_PASSWORD }}
         # More details about github context:

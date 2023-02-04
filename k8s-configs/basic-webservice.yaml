@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rasa-webservice
+  namespace: rasax
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rasa-webservice
+  template:
+    metadata:
+      labels:
+        app: rasa-webservice
+    spec:
+      containers:
+        - name: rasa-webservice
+          image: rasa-webservice:local
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: rasa-webservice-service
+  namespace: rasax
+spec:
+  selector:
+    app: rasa-webservice
+  ports:
+    - name: http
+      port: 80
+      targetPort: 80
+  type: ClusterIP
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: rasa-webservice-ingress
+  namespace: rasax
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  rules:
+  - host: EXAMPLE.COM
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: rasa-webservice-service
+            port:
+              name: http

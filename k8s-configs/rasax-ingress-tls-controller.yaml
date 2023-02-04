@@ -1,0 +1,23 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: rasax-ingress-tls-controller
+  namespace: rasax
+  annotations:
+    #nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  tls:
+  - hosts:
+    - EXAMPLE.COM
+    secretName: rasa-webservice-ingress-tls
+  rules:
+  - host: EXAMPLE.COM
+    http:
+      paths:
+      - path: /rasax
+        pathType: Prefix
+        backend:
+          service:
+            name: rasax-release-rasa-x-nginx
+            port:
+              name: http
