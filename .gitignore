@@ -41,7 +41,6 @@ lastmile_ai/learn/plots/
 .venv_tf/
 venv/
 venv_tf/
-images/
 .trial_results.db
 trial_results.db
 *.iml
