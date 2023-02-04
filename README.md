@@ -137,8 +137,8 @@ I would recommend starting with a freshly installed Ubuntu machine. However, if 
   sudo apt install docker.io docker-compose
   ```
 
-### Installation
-#### microk8s
+### Guide
+#### microk8s cluster setup
 _Below is an example of how you can instruct your audience on installing and setting up your app. This template doesn't rely on any external dependencies or services._
 1. Install microk8s via snap
 ```sh
@@ -158,7 +158,7 @@ microk8s enable dns storage helm3 registry dashboard ingress
 <b>helm3:</b> enable helm package manager<br/>
 <b>registry:</b> enable container registry to store and distribute images<br/>
 <b>dashboard:</b> enable Kubernetes Dashboard<br/>
-<b>ingress:</b> enable ingress(-nginx) to make cluster reachable externally 
+<b>ingress:</b> enable ingress(-nginx) to make cluster reachable externally <br/><br/>
 4. Apply kube config
 ```sh
 cd $HOME/.kube
@@ -168,6 +168,27 @@ microk8s config > config
 ```sh
 sudo snap alias microk8s.kubectl kubectl
 sudo snap alias microk8s.helm3 helm
+```
+
+#### Prepare configuration files and folder structure
+* To follow this guide step-by-step I would recommend to clone this repository. All of the upcoming commands assume you are in the root directory of this project. 
+```sh
+git clone git@github.com:Joelx/rasax-deployment-guide.git
+cd rasax-deployment-guide
+```
+
+#### Rasa X Helm Chart
+1. Create a namespace for our deployment (in this case I chose <i>rasax</i>)
+```sh
+kubectl create namespace rasax
+```
+2. Clone official Rasa X Helm Chart repository
+```sh
+helm repo add rasa-x https://rasahq.github.io/rasa-x-helm
+```
+3. Install the Helm Chart into our namespace. Note that we also chose a custom release name: <i>rasax-release</i>
+```sh
+helm --namespace rasax install --values rasax/basic-values.yml rasax-release rasa-x/rasa-x
 ```
 
 
