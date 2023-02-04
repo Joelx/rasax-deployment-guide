@@ -186,20 +186,49 @@ kubectl create namespace rasax
 ```sh
 helm repo add rasa-x https://rasahq.github.io/rasa-x-helm
 ```
-3. Install the Helm Chart into our namespace. Note that we also chose a custom release name: <i>rasax-release</i>.
+3. Head over and edit the `rasax/basic-values.yml` file. Specify the external IP address of your server and generate a random string for each of the secret and token properties.
+```sh
+helm repo add rasa-x https://rasahq.github.io/rasa-x-helm
+```
+4. Install the Helm Chart into our namespace. Note that we also chose a custom release name: <i>rasax-release</i>.
 ```sh
 helm --namespace rasax install --values rasax/basic-values.yml rasax-release rasa-x/rasa-x
 ```
-4. Now the best part after installing a Helm Chart! Go ahead and check how your containers are creating and your pods are coming to life!
+5. Now the best part after installing a Helm Chart! Go ahead and check how your containers are creating and your pods are coming into life!
 ```sh
 kubectl -n rasax get pods
 ```
-[![Pods of Rasa X Helm Chart Creating][Pod1-image]]
-5. Likewise you can check 
+![Pods of Rasa X Helm Chart Creating][Pod1-image]
+6. Likewise you can check the services and see what ports are being used. 
 ```sh
 kubectl -n rasax get pods
 ```
-[![Pods of Rasa X Helm Chart Creating][Service1-image]]
+![Services registered in our namespace ][Services1-image]
+7. Likewise you can check the services and see what ports are being used. 
+```sh
+kubectl -n rasax get pods
+```
+<br/>
+If all pods are running and everything is properly configured, you should be able to reach the Rasa X GUI by accessing http://your.ip.address:8000 in your browser
+
+![Rasa X Login Screen][RasaxLogin-image]
+
+You can log into the admin interface with the username `admin` and the string you specified for the `rasax.initialUser.password` field in your basic-values.yaml as your password.
+
+#### Integrate and train model
+
+There are multiple ways to load and use Rasa models. You could e.g. connect an external Rasa Open Source service to your deployment or you could use a model storage. In this case we use Rasa X with GitHub integration to manage our models. After logging into your Rasa X admin interface, head over and connect the GitHub repository containing your chatbot configuration. If you follow this guide step-by-step, you could fork this repository and connect it to Rasa X. It will give you a SSH Key, which you have to provide to your GitHub account. <br/>
+<br/>
+After you have connected your GitHub account, Rasa X will synchronize your chatbot configuration. This can sometimes take a couple of minutes. If your configuration has been loaded successfully, you can train and activate your model from the Rasa X interface. <br>
+<br>
+<b>Troubleshooting</b>
+If Rasa X either fails to load your chatbot configuration or fails training, more often then not the problem is caused by some misconfiguration of your chatbot configuration files (domain.yml, stories.yml, etc.). You can check them with a YAML Checker like yamllint (https://www.yamllint.com/). One very common problem is also having the wrong version specified in your configuration files. It's usually the first line, e.g. `version: "3.0"`. Rasa X is rather strict with this.
+<br>
+One common problem with failed training can also be a missing "rasa-worker" - pod. However, unfortunately Rasa X is rather opaque when it comes to error messages. For troubleshooting you need to take a look into the logs of your pods. Because pods are ephemeral and have no static name, you would first need to look up the current pod name with `kubectl -n rasax get pods` if you want to do it with kubectl. In this case, we would need the exact name of the "rasax-release-rasa-x"- and the "rasax-release-rasa-worker"-Pods. You could then go with `kubectl -n rasax logs rasax-release-rasa-x-647c9c7d5-2l79d -f` and follow your logs. However, this is rather tedious. This is where a Kubernetes Dashboard comes in really handy! We will discuss this in the next section.
+
+#### Kubernetes Dashboard
+
+
 
 1. Get a free API Key at [https://example.com](https://example.com)
 2. Clone the repo
@@ -308,6 +337,7 @@ Use this space to list resources you find helpful and would like to give credit 
 [Rasa-url]: https://rasa.com/
 [Pod1-image]: images/pods1.png
 [Services1-image]: images/services1.png
+[RasaxLogin-image]: images/rasax-login.png
 
 [contributors-shield]: https://img.shields.io/github/contributors/othneildrew/Best-README-Template.svg?style=for-the-badge
 [contributors-url]: https://github.com/othneildrew/Best-README-Template/graphs/contributors
