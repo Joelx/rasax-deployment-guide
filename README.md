@@ -530,7 +530,7 @@ Use this space to list resources you find helpful and would like to give credit 
 [Services1-image]: images/services1.png
 [RasaxLogin-image]: images/rasax-login.png
 [ks-dashboard-logs-image]: images/view-logs.png
-[ks-dashboard-logs-ar-image] images/auto-refresh.png
+[ks-dashboard-logs-ar-image]: images/auto-refresh.png
 [RasaChatbotWidget-image]: images/chatbot-widget.png
 [Certificate-image]: images/certificate.png
 [ActionServerPod-image]: images/action-server-building.png
