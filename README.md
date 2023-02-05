@@ -139,7 +139,7 @@ This guide explains how to build a Rasa Open Source and Rasa X production deploy
 <!-- GETTING STARTED -->
 ## Getting Started
 
-I would recommend starting with a freshly installed Ubuntu machine. However, if you have other tasks running on your machine, please be aware that following this setup may interfere with your networking services.
+I would recommend starting with a freshly installed Ubuntu machine. However, if you have other tasks running on your machine, please be aware that following this setup may interfere with your network services.
 
 ### Prerequisites
 
