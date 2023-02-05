@@ -343,7 +343,7 @@ kubectl describe certificate rasa-webservice-ingress-tls -n rasax
 
 ![Certificate][Certificate-image]
 
-This certificate gets managed and auto updated just like it would with cert-bot. After the certificate has been issued successfully, you should be able to visit your webservice via https://YOUR-DOMAIN.com . However, since the Rasa Deployment isn’t configured for TLS, the WebSocket Connection to Rasa will be broken due to a CORS conflict.<br><br>
+This certificate gets managed and auto updated just like it would with cert-bot. After the certificate has been issued successfully, you should be able to visit your webservice via https://YOUR-DOMAIN.com . However, since the Rasa deployment isn’t configured for TLS, the WebSocket connection to Rasa will be broken due to a CORS conflict.<br><br>
 
 Now there are multiple ways to configure SSL/TLS for the Rasa (X) deployment. Ideally you would configure a `customConfConfigMap` and the `certificateSecret` and mount the certificate in the nginx pod of your Rasa X deployment. I have included an example configuration for the ConfigMap under `custom-nginx-conf-files` to get you started. Maybe in the future I will cover that. However, today we wanna use the simplest working solution. And this is to use our ingress to route traffic over TLS to the nginx backend service of our Rasa X deployment. 
 
@@ -363,7 +363,7 @@ helm --namespace rasax upgrade --values rasa/tls-values.yml rasax-release rasa-x
 kubectl apply -f k8s-configs/rasax-ingress-tls-controller.yaml
 ```
 
-Now we have configured TLS for the ingresses of our webservice and for traffic to Rasa (X). We now need to rebuild our webservice to reflect the new API. 
+Now we have configured TLS for the ingresses of our webservice and for traffic to Rasa (X). We now need to rebuild our webservice to reflect the new API location. 
 
 5. Go to your `website/index.html` and edit the JavaScript. Note the comments in that file for guidance. After editing, it should look somewhat like this:
 ```js
@@ -393,12 +393,12 @@ Now we have configured TLS for the ingresses of our webservice and for traffic t
 
 ```
 
-Note that we ditched the port :8000 and added our socketPath to reflect the new API location. The nginx pod of our Rasa X deployment works as a reverse proxy and automatically redirects the traffic coming over the /socket.io path to the Rasa Production pod in our cluster at `http://rasax-release-rasa-x-rasa-production.rasax.svc:5005/socket.io`.<br>
+Note that we ditched port :8000 and added our socketPath to reflect the new API location. The nginx pod of our Rasa X deployment works as a reverse proxy and automatically redirects the traffic coming over the /socket.io path to the Rasa Production pod in our cluster at `http://rasax-release-rasa-x-rasa-production.rasax.svc:5005/socket.io`.<br>
 <br>
 <b>Also note that you will need a trailing slash (/) when accessing your services!</b> So for example you have to type https://YOUR-DOMAIN.com/rasax/ (with trailing slash!) into your browser to access the Rasa X GUI. Wether you can live with that depends on what you are trying to accomplish. If you want to change this behaviour, you would need to reconfigure the ingress controller and your nginx. A good starting point may be this medium.com article: https://medium.com/@smoco/fighting-trailing-slash-problem-c0416023d20e . <br>
 <br>
 
-6. After adjusting our index.html, we need to rebuild the webservice:
+1. After adjusting our index.html, we need to rebuild the webservice:
 ```sh
 docker build website/. -t  rasa-webservice:local -f website/Dockerfile
 
@@ -420,7 +420,7 @@ kubectl apply -f k8s-configs/webservice-deployment.yaml
 Now your webservice pod should have been rebuilt using the new image allowing your website to reach out to the new API location. 
 
 ### Action Server 
-More often then not you also want to have an Action Server allowing you to run custom actions in your Rasa deployment. In this section, I will show you how to enable the action server in your Rasa X deployment, build an action server image and get you started with a mini CI/CD workflow that allows you to automate your action server image building. <br>
+More often than not, you also want to have an Action Server allowing you to run custom actions in your Rasa deployment. In this section, I will show you how to enable the action server in your Rasa X deployment, build an action server image and get you started with a mini CI/CD workflow that allows you to automate your action server image building. <br>
 <br>
 
 1. This time we wanna use Docker Hub for the sake of our CI/CD workflow. So first make sure you are logged into docker hub on your terminal:
