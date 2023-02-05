@@ -262,7 +262,14 @@ Remember we already activated the Kubernetes Dashboard via `microk8s enable dash
 ```sh
 microk8s dashboard-proxy
 ```
-Copy the token you are given and head over to `http://YOUR.IP.ADDRESS:10443` in your Browser. When prompted, paste the token to log into the Kubernetes dashboard that is automatically connected to your cluster via microk8s. You can select the `rasax` namespace in the top left. Then on the left unter "workload" you can select "pods". To view the logs, go to one of the pods and then in the top right hand corner click on that "hamburger-menu-esque" symbol. Often times its beneficial to enable auto-refresh. You can do this via the Kebab menu on the right. 
+Copy the token you are given and head over to `http://YOUR.IP.ADDRESS:10443` in your Browser. When prompted, paste the token to log into the Kubernetes dashboard that is automatically connected to your cluster via microk8s. You can select the `rasax` namespace on the top left. Then on the left under "workload" you can select "pods". To view the logs, go to one of the pods via clicking it's name and then in the top right hand corner click on that "hamburger-menu-esque" symbol.<br>
+
+![Kubernetes Dashboard Logs][ks-dashboard-logs-image]
+<br>
+ Often times its beneficial to enable auto-refresh. You can do this via the Kebab menu on the right. <br>
+
+ ![Kubernetes Dashboard auto-refresh][ks-dashboard-logs-ar-image]
+ <br>
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -522,6 +529,8 @@ Use this space to list resources you find helpful and would like to give credit 
 [Pod1-image]: images/pods1.png
 [Services1-image]: images/services1.png
 [RasaxLogin-image]: images/rasax-login.png
+[ks-dashboard-logs-image]: images/view-logs.png
+[ks-dashboard-logs-ar-image] images/auto-refresh.png
 [RasaChatbotWidget-image]: images/chatbot-widget.png
 [Certificate-image]: images/certificate.png
 [ActionServerPod-image]: images/action-server-building.png
