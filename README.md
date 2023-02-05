@@ -192,7 +192,7 @@ sudo snap alias microk8s.helm3 helm
 
 ### Prepare configuration files and folder structure
 
-To follow this guide step-by-step I would recommend to clone this repository. All of the upcoming commands assume you are in the root directory of this project:
+To follow this guide step-by-step I would recommend you to clone this repository. All of the upcoming commands assume you are in the root directory of this project:
 ```sh
 git clone git@github.com:Joelx/rasax-deployment-guide.git
 cd rasax-deployment-guide
@@ -204,7 +204,7 @@ cd rasax-deployment-guide
 ```sh
 kubectl create namespace rasax
 ```
-2. Clone official Rasa X Helm Chart repository:
+2. Clone the official Rasa X Helm Chart repository:
 ```sh
 helm repo add rasa-x https://rasahq.github.io/rasa-x-helm
 ```
