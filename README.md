@@ -224,7 +224,7 @@ kubectl -n rasax get pods
 ![Services registered in our namespace ][Services1-image]
 
 <br/>
-If all pods are running and everything is properly configured, you should be able to reach the Rasa X GUI by accessing http://your.ip.address:8000 in your browser: <br>
+If all pods are running and everything is properly configured, you should be able to reach the Rasa X GUI by accessing http://YOUR.IP.ADDRESS:8000 in your browser: <br>
 <br>
 
 ![Rasa X Login Screen][RasaxLogin-image]
@@ -248,7 +248,7 @@ One common problem with failed training can also be a missing "rasa-worker" - po
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ### Kubernetes Dashboard
-Remember we already activated the Kubernetes Dashboard via `microk8s enable ` earlier? All you have to do is open a second terminal session and type in
+Remember we already activated the Kubernetes Dashboard via `microk8s enable dashboard` earlier? All you have to do is open a second terminal session and type in
 ```sh
 microk8s dashboard-proxy
 ```
@@ -311,17 +311,20 @@ If that is all you need (e.g. for a test- or intranet solution) you are ready to
 
 
 ### Activate SSL/TLS
+
 1. Enable cert-manager. Rather pleasantly it's integrated into microk8s as an addon!
 ```sh
 microk8s enable cert-manager
 ```
-1. Edit the `k8s-configs/tls-webservice.yaml` and replace the EXAMPLE.com entry with your correct domain name. Also very importantly you have to enter a valid E-Mail address under the spec.acme.email field of the ClusterIssuer. Let's Encrypt will reject requests with @example.com e-mail addresses.<br>
+2. Edit the `k8s-configs/tls-webservice.yaml` and replace the EXAMPLE.com entry with your correct domain name. Also very importantly you have to enter a valid E-Mail address under the spec.acme.email field of the ClusterIssuer. Let's Encrypt will reject requests with @example.com e-mail addresses.<br>
 <br>
-2. Apply the new config. Note that the ingress of our "basic-webservice" gets overwritten. Additionally we're configuring a ClusterIssuer that issues a certificate from Let's Encrypt.
+
+3. Apply the new config. Note that the ingress of our "basic-webservice" gets overwritten. Additionally we're configuring a ClusterIssuer that issues a certificate from Let's Encrypt.
 ```sh
 kubectl apply -f k8s-configs/tls-webservice.yaml
 ```
-3. Now a certificate is getting issued from Let’s Encrypt. You can view the status via
+
+4. Now a certificate is getting issued from Let’s Encrypt. You can view the status via
 ```sh
 kubectl describe certificate rasa-webservice-ingress-tls -n rasax
 ```
