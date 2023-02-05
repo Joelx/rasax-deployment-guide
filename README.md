@@ -317,14 +317,13 @@ If that is all you need (e.g. for a test- or intranet solution) you are ready to
 microk8s enable cert-manager
 ```
 2. Edit the `k8s-configs/tls-webservice.yaml` and replace the EXAMPLE.com entry with your correct domain name. Also very importantly you have to enter a valid E-Mail address under the spec.acme.email field of the ClusterIssuer. Let's Encrypt will reject requests with @example.com e-mail addresses.<br>
-<br>
 
 3. Apply the new config. Note that the ingress of our "basic-webservice" gets overwritten. Additionally we're configuring a ClusterIssuer that issues a certificate from Let's Encrypt.
 ```sh
 kubectl apply -f k8s-configs/tls-webservice.yaml
 ```
 
-4. Now a certificate is getting issued from Let’s Encrypt. You can view the status via
+1. Now a certificate is getting issued from Let’s Encrypt. You can view the status via
 ```sh
 kubectl describe certificate rasa-webservice-ingress-tls -n rasax
 ```
@@ -336,7 +335,6 @@ This certificate gets managed and auto updated just like it would with cert-bot.
 Now there are multiple ways to configure SSL/TLS for the Rasa (X) deployment. Ideally you would configure a `customConfConfigMap` and the `certificateSecret` and mount the certificate in the nginx pod of your Rasa X deployment. I have included an example configuration for the ConfigMap under `custom-nginx-conf-files` to get you started. Maybe in the future I will cover that. However, today we wanna use the simplest working solution. And this is to use our ingress to route traffic over TLS to the nginx backend service of our Rasa X deployment. 
 
 1. Edit the `rasax/tls-values.yml` and enter your IP address and domain name. You must also transfer the random tokens and secret strings from the basic-values.yml. <br>
-   <br>
 
 2. Upgrade your deployment with the new values file!
 ```sh
@@ -344,7 +342,6 @@ helm --namespace rasax upgrade --values rasa/tls-values.yml rasax-release rasa-x
 ```
 
 <b>Note that we are now hosting our API under the /rasax/ subpath!</b> That means, that your Rasa (X) services will be reachable via https://YOUR-DOMAIN.com/rasax/ while your Chatbot Website will still run under https://YOUR-DOMAIN.com/ ! For me thats a reasonable configuration, but feel free to adjust this to your needs. However, those changes would also need to be reflected in the ingress and on your webservice that we will discuss now.<br>
-<br>
 
 3. Head over to the `k8s-configs/rasax-ingress-tls-controller.yaml` and, again, edit it to reflect your actual domain name.<br>
    <br>
@@ -480,7 +477,7 @@ git push
 helm --namespace rasax upgrade --values rasax/tls-values-with-actions.yml rasax-release rasa-x/rasa-x
 ```
 
-Now admittedly updating your image tag like this is also a bit tedious. I suppose you could automate that too, but personally I didn't really need it yet. Have a look at https://rasa.com/docs/action-server/deploy-action-server/#building-an-action-server-image if you're interested. There are also some nice examples on the official Rasa X documentation, if you want to optimize your workflow further: https://rasa.com/docs/rasa/setting-up-ci-cd/ . 
+Admittedly updating your image tag like this is still a bit tedious. I suppose you could automate that too, but personally I didn't really need it yet. Have a look at https://rasa.com/docs/action-server/deploy-action-server/#building-an-action-server-image if you're interested. There are also some nice examples on the official Rasa X documentation, if you want to optimize your workflow further: https://rasa.com/docs/rasa/setting-up-ci-cd/ . 
 
 
 
