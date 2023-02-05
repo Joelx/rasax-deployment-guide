@@ -425,14 +425,14 @@ kubectl apply -f k8s-configs/webservice-deployment.yaml
 Now your webservice pod should have been rebuilt using the new image allowing your website to reach out to the new API location. 
 
 ### Action Server 
-More often then not you also want to have a Action Server allowing you to run custom actions in your Rasa deployment. In this section, I will show you how to enable the action server in your Rasa X deployment, build an action server image and get you started with a mini CI/CD workflow that allows you to automate your action server image building. <br>
+More often then not you also want to have an Action Server allowing you to run custom actions in your Rasa deployment. In this section, I will show you how to enable the action server in your Rasa X deployment, build an action server image and get you started with a mini CI/CD workflow that allows you to automate your action server image building. <br>
 <br>
 
 1. This time we wanna use Docker Hub for the sake of our CI/CD workflow. So first make sure you are logged into docker hub on your terminal:
 ```sh
 docker login
 ```
-2. (Optional) In this case we first build our action server via a Dockerfile provided under the root directory of this project. You could also skip this part and build it from your CI/CD workflow directly:
+2. (Optional) You could also skip this part and build it from your CI/CD workflow directly. In this case we first build our action server via a Dockerfile provided under the root directory of this project:
 ```sh
 docker build . -t YOUR-DOCKER-HUB-USERNAME/example-action-server:latest
 ```
@@ -452,7 +452,7 @@ kubectl -n rasax get pods
 ```
 ![Action Server Pod Creating][ActionServerPod-image]
 
-You can wether the action is working on your chatbot widget in your browser (note the actions.py and the rule I added for the example bot provided in this repository):
+You can check wether the action is working via the chatbot widget in your browser (note the actions.py and the rule I added for the example bot provided in this repository):
 
 ![Action Server Test 1][ActionServerTest1-image]
 
@@ -538,7 +538,7 @@ Use this space to list resources you find helpful and would like to give credit 
 [ActionServerTest1-image]: images/action-test-1.png
 [DockerHubLogin-image]: images/github-secrets-dh-user.png
 [ActionServerTest2-image]: images/action-server-code-change.png
-[github-action-building-image]: images/action-server-building.png
+[github-action-building-image]: images/gh-action-building.png
 [docker-hub-image-tag-image]: images/dh-image-tag.png
 [values-yaml-image-tag-image]: images/values-yaml-image-tag.png
 
