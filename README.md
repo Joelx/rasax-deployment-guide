@@ -88,11 +88,11 @@ This repository is for you if you
                   <li><a href="#deploy-webservice">Deploy Webservice</a></li>
                 </ul>
               </li>
-              <li><a href="#activate-ssl/tls">Activate SSL/TLS</a></li>
+              <li><a href="#activate-ssltls">Activate SSL/TLS</a></li>
               <li>
                 <a href="#action-server">Action Server</a>
                 <ul>
-                  <li><a href="#ci/cd-github-workflow">CI/CD GitHub Workflow</a></li>
+                  <li><a href="#cicd-github-workflow">CI/CD GitHub Workflow</a></li>
                 </ul>
               </li>
           </ul>
