@@ -290,7 +290,7 @@ docker build website/. -t  rasa-webservice:local -f website/Dockerfile
 ```sh
 docker save rasa-webservice > rasa-webservice.tar
 ```
-3. Import the image to the local microk8s:
+3. Import the image to the local microk8s registry:
 ```sh
 docker save rasa-webservice > rasa-webservice.tar
 ```
@@ -298,8 +298,8 @@ docker save rasa-webservice > rasa-webservice.tar
 ```sh
 microk8s ctr images ls
 ```
-You can now remove the `rasa-webservice.tar` on your filesystem if you like. 
-Feel free to simply use a remote registry instead. In this case, make sure to edit the `k8s-configs/website-deployment.yaml` to reference your username for Docker Hub. 
+You can now remove the `rasa-webservice.tar` on your filesystem if you like.<br> 
+If you don't what the hazzle of storing your image on the local microk8s registry only, feel free to simply use a remote registry instead. In this case, make sure to edit the `k8s-configs/website-deployment.yaml` to reference your username for Docker Hub. 
 
 #### Deploy Webservice
 Because the k8s LoadBalancer works on Layer 7, you need a Domain Name that points to the external IP Address of your server for the next step. Alternatively you can use services like https://nip.io/. 
