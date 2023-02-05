@@ -227,7 +227,7 @@ kubectl -n rasax get pods
 ![Pods of Rasa X Helm Chart Creating][Pod1-image]
 <br>
 
-6. Likewise you can check the services and see what ports are being used. 
+7. Likewise you can check the services and see what ports are being used. 
 ```sh
 kubectl -n rasax get pods
 ```
@@ -250,10 +250,10 @@ After logging into your Rasa X admin interface, head over and connect the GitHub
 <br/>
 After you have connected your GitHub account, Rasa X will synchronize your chatbot configuration. This can sometimes take a couple of minutes. If your configuration has been loaded successfully, you can train and activate your model from the Rasa X interface. <br>
 <br>
-<b>Troubleshooting</b>
-If Rasa X either fails to load your chatbot configuration or fails training, more often then not the problem is caused by some misconfiguration of your chatbot configuration files (domain.yml, stories.yml, etc.). You can check them with a YAML Checker like yamllint (https://www.yamllint.com/). One very common problem is also having the wrong version specified in your configuration files. It's usually the first line (e.g. `version: "3.0"`) in your .yaml files. Rasa X is rather strict with this.
+<b>Troubleshooting</b><br>
+If Rasa X either fails to load your chatbot configuration or fails training, more often then not the problem is caused by some misconfiguration of your chatbot configuration files (domain.yml, stories.yml, etc.). You can check them with a YAML Checker like yamllint (https://www.yamllint.com/). One very common problem is also having the wrong version specified in your configuration files. It's usually the first line (e.g. `version: "3.0"`) in your .yaml files. Rasa X is rather strict with this.<br>
 <br>
-One common problem with failed training can also be a missing "rasa-worker" - pod. However, unfortunately Rasa X is rather opaque when it comes to error messages. For troubleshooting you need to take a look into the logs of your pods. Because pods are ephemeral and have no static name, you would first need to look up the current pod name with `kubectl -n rasax get pods` if you want to do it with kubectl. In this case, we would need the exact name of the "rasax-release-rasa-x" - and the "rasax-release-rasa-worker" -Pod. You could then e.g. go with `kubectl -n rasax logs rasax-release-rasa-x-647c9c7d5-2l79d -f` and follow your logs. However, this procedure is rather tedious... this is where a Kubernetes Dashboard comes in really handy! We will discuss it in the next section.
+One common problem with failed training is also caused by a missing "rasa-worker" - pod. However, unfortunately Rasa X is rather opaque when it comes to error messages. For troubleshooting you need to take a look into the logs of your pods. Because pods are ephemeral and have no static name, you would first need to look up the current pod name with `kubectl -n rasax get pods` if you want to do it with kubectl. In this case, we would need the exact name of the "rasax-release-rasa-x" - and the "rasax-release-rasa-worker" -Pod. You could then e.g. go with `kubectl -n rasax logs rasax-release-rasa-x-647c9c7d5-2l79d -f` and follow your logs. However, this procedure is rather tedious... this is where a Kubernetes Dashboard comes in really handy! We will discuss it in the next section.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
