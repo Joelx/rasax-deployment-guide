@@ -18,22 +18,24 @@
 *** for contributors-url, forks-url, etc. This is an optional, concise syntax you may use.
 *** https://www.markdownguide.org/basic-syntax/#reference-style-links
 -->
-[//]: # [![Contributors][contributors-shield]][contributors-url]
-[//]: # [![Forks][forks-shield]][forks-url]
-[//]: # [![Stargazers][stars-shield]][stars-url]
-[//]: # [![Issues][issues-shield]][issues-url]
+<!--
+[![Contributors][contributors-shield]][contributors-url]
+[![Forks][forks-shield]][forks-url]
+[![Stargazers][stars-shield]][stars-url]
+[![Issues][issues-shield]][issues-url]
 [![MIT License][license-shield]][license-url]
-[//]: # [![LinkedIn][linkedin-shield]][linkedin-url]
-
+[![LinkedIn][linkedin-shield]][linkedin-url]
+-->
 
 
 <!-- PROJECT LOGO -->
 <br />
-[//]: #<div align="center">
- [//]: # <a href="https://github.com/othneildrew/Best-README-Template">
- [//]: #   <img src="images/logo.png" alt="Logo" width="80" height="80">
- [//]: # </a>
-
+<!--
+<div align="center">
+  <a href="https://github.com/othneildrew/Best-README-Template">
+    <img src="images/logo.png" alt="Logo" width="80" height="80">
+  </a>
+-->
   <h3 align="center">RASA (X) Deployment Guide</h3>
 
   <p align="center">
@@ -61,22 +63,24 @@ This repository is for you if you
   <ol>
     <li>
       <a href="#about-the-project">About The Project</a>
-      <ul>
+    <!--  <ul>
         <li><a href="#built-with">Built With</a></li>
-      </ul>
+      </ul> -->
     </li>
     <li>
       <a href="#getting-started">Getting Started</a>
       <ul>
         <li><a href="#prerequisites">Prerequisites</a></li>
-        <li><a href="#installation">Installation</a></li>
+        <li>
+        <a href="#installation">Guide</a>
+          <ul>
+
+          </ul>
+        </li>
       </ul>
     </li>
-    <li><a href="#usage">Usage</a></li>
-    <li><a href="#roadmap">Roadmap</a></li>
-    <li><a href="#contributing">Contributing</a></li>
     <li><a href="#license">License</a></li>
-    <li><a href="#contact">Contact</a></li>
+   <!-- <li><a href="#contact">Contact</a></li> -->
     <li><a href="#acknowledgments">Acknowledgments</a></li>
   </ol>
 </details>
@@ -86,13 +90,13 @@ This repository is for you if you
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-[//]: # [![Product Name Screen Shot][product-screenshot]](https://example.com)
+<!-- [![Product Name Screen Shot][product-screenshot]](https://example.com) -->
 
 This guide explains how to build a Rasa Open Source and Rasa X production deployment on a "bare-metal" Ubuntu (root) Server. The repository contains all necessary configuration files, as well as a Rasa Demo-Bot and a Demo-Website. You can either use specific configurations as a reference for your own deployment, or you can follow this guide step-by-step. 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-
+<!--
 
 ### Built With
 
@@ -103,7 +107,7 @@ This guide explains how to build a Rasa Open Source and Rasa X production deploy
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-
+-->
 
 <!-- GETTING STARTED -->
 ## Getting Started
