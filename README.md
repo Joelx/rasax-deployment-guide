@@ -78,6 +78,23 @@ This repository is for you if you
           <ul>
               <li><a href="#microk8s-cluster-setup">microk8s cluster setup</a></li>
               <li><a href="#prepare-configuration-files-and-folder-structure">Prepare configuration files and folder structure</a></li>
+              <li><a href="#rasa-x-helm-chart">Rasa X Helm Chart</a></li>
+              <li><a href="#integrate-and-train-model">Integrate and train model</a></li>              
+              <li><a href="#kubernetes-dashboard">Kubernetes Dashboard</a></li>
+              <li>
+              <a href="#create-a-webservice-to-host-your-chatbot">Create a Webservice to host your Chatbot</a>
+                <ul>
+                  <li><a href="#build-webservice">Build Webservice</a></li>              
+                  <li><a href="#deploy-webservice">Deploy Webservice</a></li>
+                </ul>
+              </li>
+              <li><a href="#activate-ssl/tls">Activate SSL/TLS</a></li>
+              <li>
+                <a href="#action-server">Action Server</a>
+                <ul>
+                  <li><a href="#ci/cd-github-workflow">CI/CD GitHub Workflow</a></li>
+                </ul>
+              </li>
           </ul>
         </li>
       </ul>
@@ -146,6 +163,7 @@ sudo chown -f -R $USER ~/.kube
 microk8s enable dns storage helm3 registry dashboard ingress
 ```  
 
+<b>Explanations:</b> <br>
 <b>dns:</b> enable DNS and service discovery between pods<br/>
 <b>storage:</b> enable dynamic volume storage provisioning<br/>
 <b>helm3:</b> enable helm package manager<br/>
@@ -195,20 +213,22 @@ helm --namespace rasax install --values rasax/basic-values.yml rasax-release ras
 ```sh
 kubectl -n rasax get pods
 ```
+
 ![Pods of Rasa X Helm Chart Creating][Pod1-image]
+<br>
+
 6. Likewise you can check the services and see what ports are being used. 
 ```sh
 kubectl -n rasax get pods
 ```
 ![Services registered in our namespace ][Services1-image]
-7. Likewise you can check the services and see what ports are being used. 
-```sh
-kubectl -n rasax get pods
-```
+
 <br/>
 If all pods are running and everything is properly configured, you should be able to reach the Rasa X GUI by accessing http://your.ip.address:8000 in your browser: <br>
+<br>
 
 ![Rasa X Login Screen][RasaxLogin-image]
+<br>
 
 You can log into the admin interface with the username `admin` and the string you specified as your password through the `rasax.initialUser.password` field in your `basic-values.yaml`.
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
@@ -236,7 +256,7 @@ Copy the token you are given and head over to `http://YOUR.IP.ADDRESS:10443` in 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-### Create a Website/Webservice to host your Chatbot
+### Create a Webservice to host your Chatbot
 In order to host a Rasa chatbot through a website, we need to have a
 - [x] REST or WebSocket interface that our Rasa worker/production Pods listen to.
 - [ ] website with a chatbot widget that communicates with this interface.
@@ -246,7 +266,7 @@ We already enabled REST and WebSocket channels in our `basic-values.yml`. I've p
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-### Build Webservice
+#### Build Webservice
 In this case we won’t push our image to a remote registry like Docker Hub. Instead we store it locally. However, there’s a little trickery required (https://microk8s.io/docs/registry-images). Note that we're using the image tag `:local`. You choose another tag name if you like, but due to the way the microk8s image registry works, you can't use the `:latest` tag.<br>
 <br>
 1. Build the website image
@@ -268,7 +288,7 @@ microk8s ctr images ls
 You can now remove the `rasa-webservice.tar` on your filesystem if you like. 
 Feel free to simply use a remote registry instead. in This case, make sure to edit the `k8s-configs/website-deployment.yaml` to reference e.g. your username for Docker Hub. 
 
-### Deploy Webservice
+#### Deploy Webservice
 Because the k8s LoadBalancer works on Layer 7, you need a Domain Name that points to the external IP Address of your server for the next step. Alternatively you can use services like https://nip.io/. 
 <br><br>
 1. Head over to the `k8s-configs/basic-webservice.yaml`. Replace EXAMPLE.COM with your domain name in the Ingress configuration under `spec.rules.host`.<br>
@@ -409,7 +429,7 @@ You can wether the action is working on your chatbot widget in your browser (not
 
 ![Action Server Test 1][ActionServerTest1-image]
 
-#### CI/CD GitHUb Workflow
+#### CI/CD GitHub Workflow
 Building and deploying the action server like in the previous section can be quite tedious. Everytime you make changes to the code of your action server, you would manually need to re-build your image. Thankfully we can automate that with GitHub Workflows!
 
 1. Head over to the `.github/workflows/action_server_image.yml` file and fill in your docker hub username. Also make sure that the correct branch name is configured (e.g. main).<br>
