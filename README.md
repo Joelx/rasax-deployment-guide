@@ -42,24 +42,24 @@
 Rasa Open Source is a fantastic project and arguably the most accessible chatbot framework. However, deploying Rasa and Rasa X in a "live"/production environment presents some pitfalls. Amongst many reasons, the deployment variants via Docker Compose and Quick Install Script are deprecated for Rasa 3. And the latter used the cluster distribution KIND anyway, which is nominally not production-ready. 
 </p>
 <p>
-The recommended method of installation via the Rasa X Helm Chart (https://github.com/RasaHQ/rasa-x-helm) works quite well out-of-the-box. However, configuring a realistic use case for a production-ready deployment can still be quite difficult. In addition, it is intended more for use on cloud servers with a managed load balancer. 
+The recommended method of installation via the Rasa X Helm Chart (https://github.com/RasaHQ/rasa-x-helm) works quite well out-of-the-box. However, configuring a realistic use case for a production-ready deployment can still be quite difficult. In addition, it is intended for use on cloud servers with a managed load balancer. 
 </p>
 <p>
-But there are reasons why you wouldn't want to deploy your chatbot on a cloud server. You may work for a (European) University or another authority that won't allow you to host your project on an AWS/Azure/etc. Server. My own projects so far have always required deploying Rasa (X) on a self-hosted server and making it available to a small to medium sized audience via a web service. The endeavour of deploying Rasa and Rasa X has gotten even more complicated since summer 2022, because Rasa X is no longer supported in the free version.
+But there are reasons why you wouldn't want to deploy your chatbot on a cloud server. You may work for a (European) University or another authority that won't allow you to host your project on an AWS or Azure server for example. My own projects so far have always required deploying Rasa (X) on a self-hosted server and making it available to a small to medium sized audience via a web service. 
 </p>
 <p>
-I just haven't found a really suitable and simple guidance to install and configure Rasa and Rasa X deployment for my use case. That's why I decided to share my deployment method with you as a STEP-BY-STEP GUIDE, using the most recent compatible FREE versions of Rasa Open Source and Rasa X. 
+The endeavour of deploying Rasa and Rasa X has gotten even more complicated since summer 2022, because Rasa X is no longer supported in the free version. I just haven't found a really suitable and simple guidance to install and configure a Rasa and Rasa X deployment for my use case. That's why I decided to share my deployment method with you as a STEP-BY-STEP Guide, using the most recent compatible FREE versions of Rasa Open Source and Rasa X. 
 </p>
 
 
 This repository is for you if you
-<ol>
+<ul>
     <li>are frustrated because you just can't get Rasa (X) to deploy properly</li>
-    <li>want to install Rasa (X) on a Ubuntu server</li>
+    <li>want to install Rasa (X) on an Ubuntu server</li>
     <li>want to have more control over your deployment</li>
     <li>would like to make your chatbot accessible via a website/web service</li>
-    <li>have a small to medium sized project and would like to use a single server for Rasa and Rasa X.</li>
-</ol>
+    <li>have a small to medium sized project and would like to use a single server for your web services, Rasa and Rasa X.</li>
+</ul>
 
 Since I tried to document every step, no matter how trivial it may seem, this guide should also be escpecially suitable for Kubernetes newbies.<br>
 
@@ -143,7 +143,7 @@ I would recommend starting with a freshly installed Ubuntu machine. However, if 
 
 ### Prerequisites
 
-1. Install snapd packaging system, Docker and tge microk8s cluster distribution
+1. Install snapd packaging system, Docker and microk8s cluster distribution
   ```sh
   sudo apt update
   sudo apt install snapd
@@ -153,30 +153,30 @@ I would recommend starting with a freshly installed Ubuntu machine. However, if 
 ## Guide
 
 ### microk8s cluster setup
-_Below is an example of how you can instruct your audience on installing and setting up your app. This template doesn't rely on any external dependencies or services._
+
 1. Install microk8s via snap
 ```sh
 sudo snap install microk8s --classic
 ```
 
-2. Add microk8s user to avoid sudo 
+1. Add microk8s user to avoid sudo 
 ```sh
 sudo usermod -a -G microk8s $USER
 sudo chown -f -R $USER ~/.kube
 ```
 
-3. Enable microk8s addons.  
+1. Enable microk8s addons.  
 ```sh
 microk8s enable dns storage helm3 registry dashboard ingress
 ```  
 
-<b>Explanations:</b> <br>
+<i>Explanations:_ </i> <br>
 <b>dns:</b> enable DNS and service discovery between pods<br/>
 <b>storage:</b> enable dynamic volume storage provisioning<br/>
 <b>helm3:</b> enable helm package manager<br/>
 <b>registry:</b> enable container registry to store and distribute images<br/>
 <b>dashboard:</b> enable Kubernetes Dashboard<br/>
-<b>ingress:</b> enable ingress(-nginx) to make cluster reachable externally <br/><br/>
+<b>ingress:</b> enable ingress(-nginx) to make cluster reachable externally <br/>
 
 4. Apply kube config
 ```sh
@@ -200,7 +200,7 @@ cd rasax-deployment-guide
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ### Rasa X Helm Chart
-1. Create a namespace for our deployment (in this case I chose <i>rasax</i>)
+1. Create a namespace for our deployment (in this case I chose `rasax`)
 ```sh
 kubectl create namespace rasax
 ```
@@ -208,11 +208,11 @@ kubectl create namespace rasax
 ```sh
 helm repo add rasa-x https://rasahq.github.io/rasa-x-helm
 ```
-3. Head over and edit the `rasax/basic-values.yml` file. Specify the external IP address of your server and generate a random string for each of the secret and token properties.
+3. Head over and edit the `rasax/basic-values.yml` file. Specify the external IP address of your server and generate a random string for each of the secret and token properties. (You can take hints from the values.yaml files about what exactly you have to enter into the respective fields)
 ```sh
 helm repo add rasa-x https://rasahq.github.io/rasa-x-helm
 ```
-4. Install the Helm Chart into our namespace. Note that we also chose a custom release name: <i>rasax-release</i>.
+4. Install the Helm Chart into our namespace. Note that we also chose a custom release name: `rasax-release`.
 ```sh
 helm --namespace rasax install --values rasax/basic-values.yml rasax-release rasa-x/rasa-x
 ```
@@ -243,7 +243,7 @@ You can log into the admin interface with the username `admin` and the string yo
 ### Integrate and train model
 
 There are multiple ways to load and use Rasa models. You could e.g. connect an external Rasa Open Source service to your deployment or you could use a model storage. However, in this case we use Rasa X with GitHub integration to manage our models.<br> 
-After logging into your Rasa X admin interface, head over and connect the GitHub repository containing your chatbot configuration. If you follow this guide step-by-step, you could fork this repository and connect it to Rasa X. You can do this via the admin GUI and it is pretty straightforward. It will give you a SSH Key, which you have to provide to your GitHub account. <br/>
+After logging into your Rasa X admin interface, head over and connect the GitHub repository containing your chatbot configuration. If you follow this guide step-by-step, you should already have cloned or forked this repistory. You can now connect your clone/fork with Rasa X. You can do this via the admin GUI and it is pretty straightforward. It will give you a SSH Key, which you have to provide to your GitHub account. <br/>
 <br/>
 After you have connected your GitHub account, Rasa X will synchronize your chatbot configuration. This can sometimes take a couple of minutes. If your configuration has been loaded successfully, you can train and activate your model from the Rasa X interface. <br>
 <br>
