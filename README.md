@@ -39,24 +39,31 @@
   <h3>RASA (X) Deployment Guide</h3>
 
   <p>
-Rasa Open Source is a fantastic project and arguably the most accessible chatbot framework. However, deploying Rasa and Rasa X in a "live"/production environment presents some pitfalls. However, the deployment variants via Docker Compose and Quick Install Script are deprecated for Rasa 3. The latter used the cluster distribution KIND anyway, which is nominally not production-ready. 
+Rasa Open Source is a fantastic project and arguably the most accessible chatbot framework. However, deploying Rasa and Rasa X in a "live"/production environment presents some pitfalls. Amongst many reasons, the deployment variants via Docker Compose and Quick Install Script are deprecated for Rasa 3. And the latter used the cluster distribution KIND anyway, which is nominally not production-ready. 
 </p>
 <p>
-The recommended method of installation via helmet chart works quite well out-of-the-box. However, configuring a realistic use case for a production-ready deployment can be quite difficult. In addition, it is intended more for use on cloud servers with a managed load balancer. 
+The recommended method of installation via the Rasa X Helm Chart (https://github.com/RasaHQ/rasa-x-helm) works quite well out-of-the-box. However, configuring a realistic use case for a production-ready deployment can still be quite difficult. In addition, it is intended more for use on cloud servers with a managed load balancer. 
 </p>
 <p>
-You may e.g. work for a (European) University or another authority that won't allow you to host your project on an AWS/Azure/etc. Server. My own projects so far have always required deploying Rasa (X) on a self-hosted server and making it available to a small to medium sized audience via a web service. I just haven't found a really suitable and simple guide for this. The situation has gotten even worse since summer 2022, because Rasa X is no longer supported in the free version. So I tried to use the latest compatible and free versions.
+But there are reasons why you wouldn't want to deploy your chatbot on a cloud server. You may work for a (European) University or another authority that won't allow you to host your project on an AWS/Azure/etc. Server. My own projects so far have always required deploying Rasa (X) on a self-hosted server and making it available to a small to medium sized audience via a web service. The endeavour of deploying Rasa and Rasa X has gotten even more complicated since summer 2022, because Rasa X is no longer supported in the free version.
+</p>
+<p>
+I just haven't found a really suitable and simple guidance to install and configure Rasa and Rasa X deployment for my use case. That's why I decided to share my deployment method with you as a STEP-BY-STEP GUIDE, using the most recent compatible FREE versions of Rasa Open Source and Rasa X. 
 </p>
 
 
 This repository is for you if you
 <ol>
     <li>are frustrated because you just can't get Rasa (X) to deploy properly</li>
-    <li>want to install Rasa (X) on a "normal" Ubuntu server</li>
+    <li>want to install Rasa (X) on a Ubuntu server</li>
     <li>want to have more control over your deployment</li>
     <li>would like to make your chatbot accessible via a website/web service</li>
     <li>have a small to medium sized project and would like to use a single server for Rasa and Rasa X.</li>
 </ol>
+
+Since I tried to document every step, no matter how trivial it may seem, this guide should also be escpecially suitable for Kubernetes newbies.<br>
+
+It's <b>NOT</b> for you, if you would like to deploy your Rasa (X) on an external LoadBalancer with the bundled nginx Service of the Rasa X Helm Chart deactivated. However, even then this could be a starting point if you are new to Rasa (X) deployments and just want to get started.
 
 
 <!-- TABLE OF CONTENTS -->
