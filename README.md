@@ -159,13 +159,13 @@ I would recommend starting with a freshly installed Ubuntu machine. However, if 
 sudo snap install microk8s --classic
 ```
 
-1. Add microk8s user to avoid sudo:
+2. Add microk8s user to avoid sudo:
 ```sh
 sudo usermod -a -G microk8s $USER
 sudo chown -f -R $USER ~/.kube
 ```
 
-1. Enable microk8s addons:
+3. Enable microk8s addons:
 ```sh
 microk8s enable dns storage helm3 registry dashboard ingress
 ```  
