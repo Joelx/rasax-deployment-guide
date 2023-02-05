@@ -427,7 +427,7 @@ More often than not, you also want to have an Action Server allowing you to run 
 ```sh
 docker login
 ```
-2. (Optional) You could also skip this part and build it from your CI/CD workflow directly. In this case we first build our action server via a Dockerfile provided under the root directory of this project:
+2. (Optional. You could also skip this part and build it from your CI/CD workflow directly.) In this case we first build our action server via a Dockerfile provided under the root directory of this project:
 ```sh
 docker build . -t YOUR-DOCKER-HUB-USERNAME/example-action-server:latest
 ```
