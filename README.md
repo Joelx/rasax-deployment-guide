@@ -362,16 +362,15 @@ helm --namespace rasax upgrade --values rasa/tls-values.yml rasax-release rasa-x
 <b>Note that we are now hosting our API under the /rasax/ subpath!</b> That means, that your Rasa (X) services will be reachable via https://YOUR-DOMAIN.com/rasax/ while your Chatbot Website will still run under https://YOUR-DOMAIN.com/ ! For me thats a reasonable configuration, but feel free to adjust this to your needs. However, those changes would also need to be reflected in the ingress and on your webservice that we will discuss now.<br>
 
 3. Head over to the `k8s-configs/rasax-ingress-tls-controller.yaml` and, again, edit it to reflect your actual domain name.<br>
-   <br>
 
 4.  Apply the new ingress rule:
 ```sh
 kubectl apply -f k8s-configs/rasax-ingress-tls-controller.yaml
 ```
 
-Now we have configured TLS for the ingresses of our webservice and of Rasa (X). We now need to rebuild our Website to reflect the new API. 
+Now we have configured TLS for the ingresses of our webservice and for traffic to Rasa (X). We now need to rebuild our webservice to reflect the new API. 
 
-5. Go to your `website/index.html` and edit the JavaScript to look like this:
+5. Go to your `website/index.html` and edit the JavaScript. Note the comments in that file for guidance. After editing, it should look somewhat like this:
 ```js
         !(function () {
          let e = document.createElement("script"),
@@ -400,7 +399,8 @@ Now we have configured TLS for the ingresses of our webservice and of Rasa (X). 
 ```
 
 Note that we ditched the port :8000 and added our socketPath to reflect the new API location. The nginx pod of our Rasa X deployment works as a reverse proxy and automatically redirects the traffic coming over the /socket.io path to the Rasa Production pod in our cluster at `http://rasax-release-rasa-x-rasa-production.rasax.svc:5005/socket.io`.<br>
-<b>Also note that you will need a trailing slash (/) when accessing your services!</b> So for example you have to type https://YOUR-DOMAIN.com/rasax/ (with trailing slash!) into your browser to access the Rasa X GUI. Wether you can live with that depends on what you are trying to accomplish. If you want to change this behaviour you would need to reconfigure the ingress controller and your nginx. A guide starting point may be this medium.com article: https://medium.com/@smoco/fighting-trailing-slash-problem-c0416023d20e . <br>
+<br>
+<b>Also note that you will need a trailing slash (/) when accessing your services!</b> So for example you have to type https://YOUR-DOMAIN.com/rasax/ (with trailing slash!) into your browser to access the Rasa X GUI. Wether you can live with that depends on what you are trying to accomplish. If you want to change this behaviour, you would need to reconfigure the ingress controller and your nginx. A good starting point may be this medium.com article: https://medium.com/@smoco/fighting-trailing-slash-problem-c0416023d20e . <br>
 <br>
 
 6. After adjusting our index.html, we need to rebuild the webservice:
@@ -417,7 +417,7 @@ microk8s ctr image import rasa-webservice.tar
 kubectl -n rasax delete deployment rasa-webservice
 ```
 
-8. In the name of clarity, we built the deployment, service and ingress of our Webservice with one file (`basic-webservice.yaml`). We then overwrote the ingress controller with another file (`tls-webservice.yaml`). Because of that, we can't use the basic-webservice.yaml anymore to re-build our deployment. That's why I have prepared another file for that: `webservice-deployment.yaml`. Go ahead and apply it.
+8. In the name of clarity, I bundled deployment, service and ingress of our Webservice in that one file (`basic-webservice.yaml`) we used earlier. We then overwrote the ingress controller with another file (`tls-webservice.yaml`). Because of that, we can't use the basic-webservice.yaml anymore to re-build our deployment. That's why I have prepared another file for that: `webservice-deployment.yaml`. I hope I didn't confuse you now ;) <br> Just go ahead and apply it:
 ```sh
 kubectl apply -f k8s-configs/webservice-deployment.yaml
 ```
