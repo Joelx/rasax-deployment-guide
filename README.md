@@ -265,7 +265,8 @@ microk8s dashboard-proxy
 Copy the token you are given and head over to `http://YOUR.IP.ADDRESS:10443` in your Browser. When prompted, paste the token to log into the Kubernetes dashboard that is automatically connected to your cluster via microk8s. You can select the `rasax` namespace on the top left. Then on the left under "workload" you can select "pods". To view the logs, go to one of the pods via clicking it's name and then in the top right hand corner click on that "hamburger-menu-esque" symbol.<br>
 
 ![Kubernetes Dashboard Logs][ks-dashboard-logs-image]
-<br>
+<br><br>
+
  Often times its beneficial to enable auto-refresh. You can do this via the Kebab menu on the right. <br>
 
  ![Kubernetes Dashboard auto-refresh][ks-dashboard-logs-ar-image]
@@ -279,7 +280,7 @@ In order to host a Rasa chatbot through a website, we need to have a
 - [ ] website with a chatbot widget that communicates with this interface.
 - [ ] web service that serves our website
 
-We already enabled REST and WebSocket channels in our `basic-values.yml`. I've prepared a demo Website for you. You can find it in the `website/` directory. I'm using a slightly adjusted version of the rasa-webchat widget by botfront (https://github.com/botfront/rasa-webchat) which supports WebSocket. Another really great widget is made by JiteshGaikwad (https://github.com/JiteshGaikwad/Chatbot-Widget), which however uses the REST webhook channel. 
+We already enabled REST and WebSocket channels in our `basic-values.yml`. The next part is to deploy a webservice. For that, I've prepared a demo Website for you. You can find it in the `website/` directory. I'm using a slightly adjusted version of the rasa-webchat widget by botfront (https://github.com/botfront/rasa-webchat) which supports WebSocket. Another really great widget is made by JiteshGaikwad (https://github.com/JiteshGaikwad/Chatbot-Widget), which however uses the REST webhook channel. 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
