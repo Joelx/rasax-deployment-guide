@@ -333,7 +333,7 @@ microk8s enable cert-manager
 kubectl apply -f k8s-configs/tls-webservice.yaml
 ```
 
-1. Now a certificate is getting issued from Let’s Encrypt. You can view the status via
+4. Now a certificate is getting issued from Let’s Encrypt. You can view the status via
 ```sh
 kubectl describe certificate rasa-webservice-ingress-tls -n rasax
 ```
