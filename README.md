@@ -143,7 +143,7 @@ I would recommend starting with a freshly installed Ubuntu machine. However, if 
 
 ### Prerequisites
 
-1. Install snapd packaging system, Docker and microk8s cluster distribution
+1. Install snapd packaging system, Docker and microk8s cluster distribution:
   ```sh
   sudo apt update
   sudo apt install snapd
@@ -154,18 +154,18 @@ I would recommend starting with a freshly installed Ubuntu machine. However, if 
 
 ### microk8s cluster setup
 
-1. Install microk8s via snap
+1. Install microk8s via snap:
 ```sh
 sudo snap install microk8s --classic
 ```
 
-1. Add microk8s user to avoid sudo 
+1. Add microk8s user to avoid sudo:
 ```sh
 sudo usermod -a -G microk8s $USER
 sudo chown -f -R $USER ~/.kube
 ```
 
-1. Enable microk8s addons.  
+1. Enable microk8s addons:
 ```sh
 microk8s enable dns storage helm3 registry dashboard ingress
 ```  
@@ -178,13 +178,13 @@ microk8s enable dns storage helm3 registry dashboard ingress
 <b>dashboard:</b> enable Kubernetes Dashboard<br/>
 <b>ingress:</b> enable ingress(-nginx) to make cluster reachable externally <br/>
 
-4. Apply kube config
+4. Apply kube config:
 ```sh
 cd $HOME/.kube
 microk8s config > config
 ```
 
-5. Register alias for microk8s.kubectl and microk8s.helm3
+5. Register alias for microk8s.kubectl and microk8s.helm3:
 ```sh
 sudo snap alias microk8s.kubectl kubectl
 sudo snap alias microk8s.helm3 helm
@@ -192,7 +192,7 @@ sudo snap alias microk8s.helm3 helm
 
 ### Prepare configuration files and folder structure
 
-To follow this guide step-by-step I would recommend to clone this repository. All of the upcoming commands assume you are in the root directory of this project. 
+To follow this guide step-by-step I would recommend to clone this repository. All of the upcoming commands assume you are in the root directory of this project:
 ```sh
 git clone git@github.com:Joelx/rasax-deployment-guide.git
 cd rasax-deployment-guide
@@ -200,11 +200,11 @@ cd rasax-deployment-guide
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ### Rasa X Helm Chart
-1. Create a namespace for our deployment (in this case I chose `rasax`)
+1. Create a namespace for our deployment (in this case I chose `rasax`):
 ```sh
 kubectl create namespace rasax
 ```
-2. Clone official Rasa X Helm Chart repository
+2. Clone official Rasa X Helm Chart repository:
 ```sh
 helm repo add rasa-x https://rasahq.github.io/rasa-x-helm
 ```
@@ -215,11 +215,11 @@ helm repo add rasa-x https://rasahq.github.io/rasa-x-helm
 helm repo add rasa-x https://rasahq.github.io/rasa-x-helm
 ```
 
-5. Install the Helm Chart into our namespace. Note that we also chose a custom release name: `rasax-release`.
+5. Install the Helm Chart into our namespace. Note that we also chose a custom release name `rasax-release`:
 ```sh
 helm --namespace rasax install --values rasax/basic-values.yml rasax-release rasa-x/rasa-x
 ```
-6. Now the best part after installing a Helm Chart! Go ahead and check how your containers are creating and your pods are coming into life!
+6. Now the best part after installing a Helm Chart! Go ahead and check how your containers are creating and your pods are coming into life:
 ```sh
 kubectl -n rasax get pods
 ```
@@ -227,7 +227,7 @@ kubectl -n rasax get pods
 ![Pods of Rasa X Helm Chart Creating][Pod1-image]
 <br>
 
-7. Likewise you can check the services and see what ports are being used. 
+7. Likewise you can check the services and see what ports are being used.:
 ```sh
 kubectl -n rasax get pods
 ```
@@ -258,7 +258,7 @@ One common problem with failed training is also caused by a missing "rasa-worker
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ### Kubernetes Dashboard
-Remember we already activated the Kubernetes Dashboard via `microk8s enable dashboard` earlier? All you have to do is open a second terminal session and type in
+Remember we already activated the Kubernetes Dashboard via `microk8s enable dashboard` earlier? All you have to do is open a second terminal session and type in:
 ```sh
 microk8s dashboard-proxy
 ```
@@ -285,33 +285,33 @@ We already enabled REST and WebSocket channels in our `basic-values.yml`. The ne
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 #### Build Webservice
-In this case we won’t push our image to a remote registry like Docker Hub. Instead we store it locally. However, there’s a little trickery required (https://microk8s.io/docs/registry-images). Note that we're using the image tag `:local`. You choose another tag name if you like, but due to the way the microk8s image registry works, you can't use the `:latest` tag.<br>
+In this case we won’t push our image to a remote registry like Docker Hub. Instead we store it locally. However, there’s a little trickery required (https://microk8s.io/docs/registry-images). Note that we're using the image tag `:local`. You can choose another tag name if you like, but due to the way the microk8s image registry works, you can't use the `:latest` tag.<br>
 <br>
-1. Build the website image
+1. Build the website image:
 ```sh
 docker build website/. -t  rasa-webservice:local -f website/Dockerfile
 ```
-2. Store the image on your filesystem
+2. Store the image on your filesystem:
 ```sh
 docker save rasa-webservice > rasa-webservice.tar
 ```
-3. Import the image to the local microk8s 
+3. Import the image to the local microk8s:
 ```sh
 docker save rasa-webservice > rasa-webservice.tar
 ```
-4. Confirm that the image has been imported 
+4. Confirm that the image has been imported:
 ```sh
 microk8s ctr images ls
 ```
 You can now remove the `rasa-webservice.tar` on your filesystem if you like. 
-Feel free to simply use a remote registry instead. in This case, make sure to edit the `k8s-configs/website-deployment.yaml` to reference e.g. your username for Docker Hub. 
+Feel free to simply use a remote registry instead. In this case, make sure to edit the `k8s-configs/website-deployment.yaml` to reference your username for Docker Hub. 
 
 #### Deploy Webservice
 Because the k8s LoadBalancer works on Layer 7, you need a Domain Name that points to the external IP Address of your server for the next step. Alternatively you can use services like https://nip.io/. 
 <br><br>
 1. Head over to the `k8s-configs/basic-webservice.yaml`. Replace EXAMPLE.COM with your domain name in the Ingress configuration under `spec.rules.host`.<br>
 
-2. Apply the k8s configuration for deployment, service and ingress of your webservice.
+2. Apply the k8s configuration for deployment, service and ingress of your webservice:
 ```sh
 kubectl apply -f k8s-configs/basic-webservice.yaml
 ```
@@ -321,7 +321,7 @@ That's it! You should now be able to access your chatbot via browser!
 ![Rasa Chatbot Widget][RasaChatbotWidget-image]
 
 
-Perfect! Now we have a Cluster with a working Webservice that is reachable via http and connects to our Rasa Deployment through WebSocket. 
+Perfect! Now we have a Cluster with a working Webservice that is reachable via http and connects to our Rasa deployment through WebSocket. 
 If that is all you need (e.g. for a test- or intranet solution) you are ready to go. For a somewhat solid production environment, however, we need some more steps.
 
 
@@ -334,14 +334,14 @@ If that is all you need (e.g. for a test- or intranet solution) you are ready to
 ```sh
 microk8s enable cert-manager
 ```
-2. Edit the `k8s-configs/tls-webservice.yaml` and replace the EXAMPLE.com entry with your correct domain name. Also very importantly you have to enter a valid E-Mail address under the spec.acme.email field of the ClusterIssuer. Let's Encrypt will reject requests with @example.com e-mail addresses.<br>
+2. Edit the `k8s-configs/tls-webservice.yaml` and replace the EXAMPLE.com entry with your correct domain name. Also very importantly you have to enter a valid e-mail address under the spec.acme.email field of the ClusterIssuer. Let's Encrypt will reject requests with @example.com e-mail addresses.<br>
 
-3. Apply the new config. Note that the ingress of our "basic-webservice" gets overwritten. Additionally we're configuring a ClusterIssuer that issues a certificate from Let's Encrypt.
+3. Apply the new config. Additionally we're configuring a ClusterIssuer that issues a certificate from Let's Encrypt. Note that the ingress of our "basic-webservice" gets overwritten with that command: 
 ```sh
 kubectl apply -f k8s-configs/tls-webservice.yaml
 ```
 
-4. Now a certificate is getting issued from Let’s Encrypt. You can view the status via
+4. Now a certificate is getting issued from Let’s Encrypt. You can view the status via:
 ```sh
 kubectl describe certificate rasa-webservice-ingress-tls -n rasax
 ```
@@ -354,7 +354,7 @@ Now there are multiple ways to configure SSL/TLS for the Rasa (X) deployment. Id
 
 1. Edit the `rasax/tls-values.yml` and enter your IP address and domain name. You must also transfer the random tokens and secret strings from the basic-values.yml. <br>
 
-2. Upgrade your deployment with the new values file!
+2. Upgrade your deployment with the new values file:
 ```sh
 helm --namespace rasax upgrade --values rasa/tls-values.yml rasax-release rasa-x/rasa-x
 ```
@@ -364,14 +364,14 @@ helm --namespace rasax upgrade --values rasa/tls-values.yml rasax-release rasa-x
 3. Head over to the `k8s-configs/rasax-ingress-tls-controller.yaml` and, again, edit it to reflect your actual domain name.<br>
    <br>
 
-4.  Apply the new ingress rule
+4.  Apply the new ingress rule:
 ```sh
 kubectl apply -f k8s-configs/rasax-ingress-tls-controller.yaml
 ```
 
 Now we have configured TLS for the ingresses of our webservice and of Rasa (X). We now need to rebuild our Website to reflect the new API. 
 
-5. Go to your `website/index.html` and edit the JavaScript to look like this.
+5. Go to your `website/index.html` and edit the JavaScript to look like this:
 ```js
         !(function () {
          let e = document.createElement("script"),
@@ -428,25 +428,25 @@ Now your webservice pod should have been rebuilt using the new image allowing yo
 More often then not you also want to have a Action Server allowing you to run custom actions in your Rasa deployment. In this section, I will show you how to enable the action server in your Rasa X deployment, build an action server image and get you started with a mini CI/CD workflow that allows you to automate your action server image building. <br>
 <br>
 
-1. This time we wanna use Docker Hub for the sake of our CI/CD workflow. So first make sure you are logged into docker hub on your terminal.
+1. This time we wanna use Docker Hub for the sake of our CI/CD workflow. So first make sure you are logged into docker hub on your terminal:
 ```sh
 docker login
 ```
-2. (Optional) In this case we first build our action server via a Dockerfile provided under the root directory of this project. You could also skip this part and build it from your CI/CD workflow directly.
+2. (Optional) In this case we first build our action server via a Dockerfile provided under the root directory of this project. You could also skip this part and build it from your CI/CD workflow directly:
 ```sh
 docker build . -t YOUR-DOCKER-HUB-USERNAME/example-action-server:latest
 ```
-3. (Optional) Push to docker hub
+3. (Optional) Push to docker hub:
 ```sh
 docker build . -t YOUR-DOCKER-HUB-USERNAME/example-action-server:latest
 ```
 4. (Required) Edit `rasax/tls-values-with-actions.yml` to reflect your IP, domain and token + secret strings. <br>
    <br>
-5. (Optional) Upgrade your Rasa X deployment with the new values. 
+5. (Optional) Upgrade your Rasa X deployment with the new values:
 ```sh
 helm --namespace rasax upgrade --values rasax/tls-values-with-actions.yml rasax-release rasa-x/rasa-x
 ```
-6. (Optional) Check that your action server pod is creating/running
+6. (Optional) Check that your action server pod is creating/running:
 ```sh
 kubectl -n rasax get pods
 ```
