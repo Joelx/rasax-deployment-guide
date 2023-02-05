@@ -36,16 +36,18 @@
     <img src="images/logo.png" alt="Logo" width="80" height="80">
   </a>
 -->
-  <h3 align="center">RASA (X) Deployment Guide</h3>
+  <h3>RASA (X) Deployment Guide</h3>
 
-  <p align="center">
+  <p>
 Rasa Open Source is a fantastic project and arguably the most accessible chatbot framework. However, deploying Rasa and Rasa X in a "live"/production environment presents some pitfalls. However, the deployment variants via Docker Compose and Quick Install Script are deprecated for Rasa 3. The latter used the cluster distribution KIND anyway, which is nominally not production-ready. 
+</p>
+<p>
+The recommended method of installation via helmet chart works quite well out-of-the-box. However, configuring a realistic use case for a production-ready deployment can be quite difficult. In addition, it is intended more for use on cloud servers with a managed load balancer. 
+</p>
+<p>
+You may e.g. work for a (European) University or another authority that won't allow you to host your project on an AWS/Azure/etc. Server. My own projects so far have always required deploying Rasa (X) on a self-hosted server and making it available to a small to medium sized audience via a web service. I just haven't found a really suitable and simple guide for this. The situation has gotten even worse since summer 2022, because Rasa X is no longer supported in the free version. So I tried to use the latest compatible and free versions.
+</p>
 
-The meanwhile recommended method of installation via helmet chart works quite well out-of-the-box. However, configuring a realistic use case for a production-ready deployment can be quite difficult. In addition, it is intended more for use on cloud servers with a managed load balancer. 
-
-You may e.g. work for a (European) University or another authority that won't allow you to host your project on an AWS/Azure/etc. Server. My own projects so far have always required deploying Rasa (X) on a self-hosted server and making it available to a small to medium sized audience via a web service. I just haven't found a really suitable and simple guide for this.
-
-The situation has gotten even worse since summer 2022, because Rasa X is no longer supported in the free version. So I tried to use the latest compatible and free versions.
 
 This repository is for you if you
 <ol>
@@ -74,7 +76,8 @@ This repository is for you if you
         <li>
         <a href="#installation">Guide</a>
           <ul>
-
+              <li><a href="#microk8s-cluster-setup">microk8s cluster setup</a></li>
+              <li><a href="#prepare-configuration-files-and-folder-structure">Prepare configuration files and folder structure</a></li>
           </ul>
         </li>
       </ul>
@@ -123,47 +126,55 @@ I would recommend starting with a freshly installed Ubuntu machine. However, if 
   sudo apt install docker.io docker-compose
   ```
 
-### Guide
-#### microk8s cluster setup
+## Guide
+
+### microk8s cluster setup
 _Below is an example of how you can instruct your audience on installing and setting up your app. This template doesn't rely on any external dependencies or services._
 1. Install microk8s via snap
 ```sh
 sudo snap install microk8s --classic
 ```
+
 2. Add microk8s user to avoid sudo 
 ```sh
 sudo usermod -a -G microk8s $USER
 sudo chown -f -R $USER ~/.kube
 ```
+
 3. Enable microk8s addons.  
 ```sh
 microk8s enable dns storage helm3 registry dashboard ingress
 ```  
+
 <b>dns:</b> enable DNS and service discovery between pods<br/>
 <b>storage:</b> enable dynamic volume storage provisioning<br/>
 <b>helm3:</b> enable helm package manager<br/>
 <b>registry:</b> enable container registry to store and distribute images<br/>
 <b>dashboard:</b> enable Kubernetes Dashboard<br/>
 <b>ingress:</b> enable ingress(-nginx) to make cluster reachable externally <br/><br/>
+
 4. Apply kube config
 ```sh
 cd $HOME/.kube
 microk8s config > config
 ```
+
 5. Register alias for microk8s.kubectl and microk8s.helm3
 ```sh
 sudo snap alias microk8s.kubectl kubectl
 sudo snap alias microk8s.helm3 helm
 ```
 
-#### Prepare configuration files and folder structure
-* To follow this guide step-by-step I would recommend to clone this repository. All of the upcoming commands assume you are in the root directory of this project. 
+### Prepare configuration files and folder structure
+
+To follow this guide step-by-step I would recommend to clone this repository. All of the upcoming commands assume you are in the root directory of this project. 
 ```sh
 git clone git@github.com:Joelx/rasax-deployment-guide.git
 cd rasax-deployment-guide
 ```
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
-#### Rasa X Helm Chart
+
+### Rasa X Helm Chart
 1. Create a namespace for our deployment (in this case I chose <i>rasax</i>)
 ```sh
 kubectl create namespace rasax
@@ -202,7 +213,7 @@ If all pods are running and everything is properly configured, you should be abl
 You can log into the admin interface with the username `admin` and the string you specified as your password through the `rasax.initialUser.password` field in your `basic-values.yaml`.
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-#### Integrate and train model
+### Integrate and train model
 
 There are multiple ways to load and use Rasa models. You could e.g. connect an external Rasa Open Source service to your deployment or you could use a model storage. However, in this case we use Rasa X with GitHub integration to manage our models.<br> 
 After logging into your Rasa X admin interface, head over and connect the GitHub repository containing your chatbot configuration. If you follow this guide step-by-step, you could fork this repository and connect it to Rasa X. You can do this via the admin GUI and it is pretty straightforward. It will give you a SSH Key, which you have to provide to your GitHub account. <br/>
@@ -215,7 +226,8 @@ If Rasa X either fails to load your chatbot configuration or fails training, mor
 One common problem with failed training can also be a missing "rasa-worker" - pod. However, unfortunately Rasa X is rather opaque when it comes to error messages. For troubleshooting you need to take a look into the logs of your pods. Because pods are ephemeral and have no static name, you would first need to look up the current pod name with `kubectl -n rasax get pods` if you want to do it with kubectl. In this case, we would need the exact name of the "rasax-release-rasa-x" - and the "rasax-release-rasa-worker" -Pod. You could then e.g. go with `kubectl -n rasax logs rasax-release-rasa-x-647c9c7d5-2l79d -f` and follow your logs. However, this procedure is rather tedious... this is where a Kubernetes Dashboard comes in really handy! We will discuss it in the next section.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
-#### Kubernetes Dashboard
+
+### Kubernetes Dashboard
 Remember we already activated the Kubernetes Dashboard via `microk8s enable ` earlier? All you have to do is open a second terminal session and type in
 ```sh
 microk8s dashboard-proxy
@@ -233,7 +245,8 @@ In order to host a Rasa chatbot through a website, we need to have a
 We already enabled REST and WebSocket channels in our `basic-values.yml`. I've prepared a demo Website for you. You can find it in the `website/` directory. I'm using a slightly adjusted version of the rasa-webchat widget by botfront (https://github.com/botfront/rasa-webchat) which supports WebSocket. Another really great widget is made by JiteshGaikwad (https://github.com/JiteshGaikwad/Chatbot-Widget), which however uses the REST webhook channel. 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
-#### Build Webservice
+
+### Build Webservice
 In this case we won’t push our image to a remote registry like Docker Hub. Instead we store it locally. However, there’s a little trickery required (https://microk8s.io/docs/registry-images). Note that we're using the image tag `:local`. You choose another tag name if you like, but due to the way the microk8s image registry works, you can't use the `:latest` tag.<br>
 <br>
 1. Build the website image
@@ -255,7 +268,7 @@ microk8s ctr images ls
 You can now remove the `rasa-webservice.tar` on your filesystem if you like. 
 Feel free to simply use a remote registry instead. in This case, make sure to edit the `k8s-configs/website-deployment.yaml` to reference e.g. your username for Docker Hub. 
 
-#### Deploy Webservice
+### Deploy Webservice
 Because the k8s LoadBalancer works on Layer 7, you need a Domain Name that points to the external IP Address of your server for the next step. Alternatively you can use services like https://nip.io/. 
 <br><br>
 1. Head over to the `k8s-configs/basic-webservice.yaml`. Replace EXAMPLE.COM with your domain name in the Ingress configuration under `spec.rules.host`.<br>
