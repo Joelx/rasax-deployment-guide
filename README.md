@@ -329,7 +329,7 @@ If that is all you need (e.g. for a test- or intranet solution) you are ready to
 ```sh
 microk8s enable cert-manager
 ```
-2. Edit the `k8s-configs/tls-webservice.yaml` and replace the EXAMPLE.com entry with your correct domain name. Also very importantly you have to enter a valid e-mail address under the spec.acme.email field of the ClusterIssuer. Let's Encrypt will reject requests with @example.com e-mail addresses.<br>
+2. Edit the `k8s-configs/tls-webservice.yaml` and replace the EXAMPLE.com entry with your correct domain name. Also very importantly you have to enter a valid e-mail address under the `spec.acme.email` field of the ClusterIssuer. Let's Encrypt will reject requests with @example.com e-mail addresses.<br>
 
 3. Apply the new config. Additionally we're configuring a ClusterIssuer that issues a certificate from Let's Encrypt. Note that the ingress of our "basic-webservice" gets overwritten with that command: 
 ```sh
