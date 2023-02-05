@@ -209,11 +209,11 @@ kubectl -n rasax get pods
 kubectl -n rasax get pods
 ```
 <br/>
-If all pods are running and everything is properly configured, you should be able to reach the Rasa X GUI by accessing http://your.ip.address:8000 in your browser
+If all pods are running and everything is properly configured, you should be able to reach the Rasa X GUI by accessing http://your.ip.address:8000 in your browser: <br>
 
 ![Rasa X Login Screen][RasaxLogin-image]
 
-You can log into the admin interface with the username `admin` and the string you specified for the `rasax.initialUser.password` field in your basic-values.yaml as your password.
+You can log into the admin interface with the username `admin` and the string you specified as your password through the `rasax.initialUser.password` field in your `basic-values.yaml`.
 
 #### Integrate and train model
 
@@ -222,27 +222,66 @@ There are multiple ways to load and use Rasa models. You could e.g. connect an e
 After you have connected your GitHub account, Rasa X will synchronize your chatbot configuration. This can sometimes take a couple of minutes. If your configuration has been loaded successfully, you can train and activate your model from the Rasa X interface. <br>
 <br>
 <b>Troubleshooting</b>
-If Rasa X either fails to load your chatbot configuration or fails training, more often then not the problem is caused by some misconfiguration of your chatbot configuration files (domain.yml, stories.yml, etc.). You can check them with a YAML Checker like yamllint (https://www.yamllint.com/). One very common problem is also having the wrong version specified in your configuration files. It's usually the first line, e.g. `version: "3.0"`. Rasa X is rather strict with this.
+If Rasa X either fails to load your chatbot configuration or fails training, more often then not the problem is caused by some misconfiguration of your chatbot configuration files (domain.yml, stories.yml, etc.). You can check them with a YAML Checker like yamllint (https://www.yamllint.com/). One very common problem is also having the wrong version specified in your configuration files. It's usually the first line (e.g. `version: "3.0"`) in your .yaml files. Rasa X is rather strict with this.
 <br>
-One common problem with failed training can also be a missing "rasa-worker" - pod. However, unfortunately Rasa X is rather opaque when it comes to error messages. For troubleshooting you need to take a look into the logs of your pods. Because pods are ephemeral and have no static name, you would first need to look up the current pod name with `kubectl -n rasax get pods` if you want to do it with kubectl. In this case, we would need the exact name of the "rasax-release-rasa-x"- and the "rasax-release-rasa-worker"-Pods. You could then go with `kubectl -n rasax logs rasax-release-rasa-x-647c9c7d5-2l79d -f` and follow your logs. However, this is rather tedious. This is where a Kubernetes Dashboard comes in really handy! We will discuss this in the next section.
+One common problem with failed training can also be a missing "rasa-worker" - pod. However, unfortunately Rasa X is rather opaque when it comes to error messages. For troubleshooting you need to take a look into the logs of your pods. Because pods are ephemeral and have no static name, you would first need to look up the current pod name with `kubectl -n rasax get pods` if you want to do it with kubectl. In this case, we would need the exact name of the "rasax-release-rasa-x" - and the "rasax-release-rasa-worker" -Pod. You could then e.g. go with `kubectl -n rasax logs rasax-release-rasa-x-647c9c7d5-2l79d -f` and follow your logs. However, this procedure is rather tedious... this is where a Kubernetes Dashboard comes in really handy! We will discuss it in the next section.
 
 #### Kubernetes Dashboard
+Remember we already activated the Kubernetes Dashboard via `microk8s enable ` earlier? All you have to do is open a second terminal session and type in
+```sh
+microk8s dashboard-proxy
+```
+Copy the token you are given and head over to `http://YOUR.IP.ADDRESS:10443` in your Browser. When prompted, paste the token to log into the Kubernetes dashboard that is automatically connected to your cluster via microk8s. You can select the `rasax` namespace in the top left. Then on the left unter "workload" you can select "pods". To view the logs, go to one of the pods and then in the top right hand corner click on that "hamburger-menu-esque" symbol. Often times its beneficial to enable auto-refresh. You can do this via the Kebab menu on the right. 
 
 
+### Create a Website/Webservice to host your Chatbot
+In order to host a Rasa chatbot through a website, we need to have 
+- [x] a REST or WebSocket interface that our Rasa worker/production Pods listen to.
+- [ ] a website with a chatbot widget that communicates with this interface.
+- [ ] a web service that serves our website
 
-1. Get a free API Key at [https://example.com](https://example.com)
-2. Clone the repo
-   ```sh
-   git clone https://github.com/your_username_/Project-Name.git
-   ```
-3. Install NPM packages
-   ```sh
-   npm install
-   ```
-4. Enter your API in `config.js`
-   ```js
-   const API_KEY = 'ENTER YOUR API';
-   ```
+We already enabled REST and WebSocket channels in our `basic-values.yml`. I've prepared a demo Website for you. You can find it in the `website/` directory. I'm using a slightly adjusted version of the rasa-webchat widget by botfront (https://github.com/botfront/rasa-webchat) which supports WebSocket. Another really great widget is made by JiteshGaikwad (https://github.com/JiteshGaikwad/Chatbot-Widget), which however uses the REST webhook channel. 
+
+#### Build Webservice
+In this case we won’t push our image to a remote registry like Docker Hub. Instead we store it locally. However, there’s a little trickery required (https://microk8s.io/docs/registry-images). Note that we're using the image tag `:local`. You choose another tag name if you like, but due to the way the microk8s image registry works, you can't use the `:latest` tag.<br>
+<br>
+1. Build the website image
+```sh
+docker build website/. -t  rasa-webservice:local -f website/Dockerfile
+```
+2. Store the image on your filesystem
+```sh
+docker save rasa-webservice > rasa-webservice.tar
+```
+3. Import the image to the local microk8s 
+```sh
+docker save rasa-webservice > rasa-webservice.tar
+```
+4. Confirm that the image has been imported 
+```sh
+microk8s ctr images ls
+```
+You can now remove the `rasa-webservice.tar` on your filesystem if you like. 
+Feel free to simply use a remote registry instead. in This case, make sure to edit the `k8s-configs/website-deployment.yaml` to reference e.g. your username for Docker Hub. 
+
+#### Deploy Webservice
+Because the k8s LoadBalancer works on Layer 7, you need a Domain Name that points to the external IP Address of your server for the next step. Alternatively you can use services like https://nip.io/. 
+<br><br>
+1. Head over to the `k8s-configs/basic-webservice.yaml`. Replace EXAMPLE.COM with your domain name in the Ingress configuration under `spec.rules.host`.<br>
+
+2. Apply the k8s configuration for deployment, service and ingress of your webservice.
+```sh
+kubectl apply -f k8s-configs/basic-webservice.yaml
+```
+
+That's it! You should now be able to access your chatbot via browser!
+
+![Rasa Chatbot Widget][RasaChatbotWidget-image]
+
+
+Perfect! Now we have a Cluster with a working Webservice that is reachable via http and connects to our Rasa Deployment through WebSocket. 
+If that is all you need (e.g. for a test- or intranet solution) you are ready to go. For a somewhat solid production environment, however, we need some more steps.
+
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -338,6 +377,7 @@ Use this space to list resources you find helpful and would like to give credit 
 [Pod1-image]: images/pods1.png
 [Services1-image]: images/services1.png
 [RasaxLogin-image]: images/rasax-login.png
+[RasaChatbotWidget-image]: images/chatbot-widget.png
 
 [contributors-shield]: https://img.shields.io/github/contributors/othneildrew/Best-README-Template.svg?style=for-the-badge
 [contributors-url]: https://github.com/othneildrew/Best-README-Template/graphs/contributors
