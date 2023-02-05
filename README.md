@@ -170,7 +170,7 @@ sudo chown -f -R $USER ~/.kube
 microk8s enable dns storage helm3 registry dashboard ingress
 ```  
 
-<i>Explanations:_ </i> <br>
+<i>Explanations: </i> <br>
 <b>dns:</b> enable DNS and service discovery between pods<br/>
 <b>storage:</b> enable dynamic volume storage provisioning<br/>
 <b>helm3:</b> enable helm package manager<br/>
