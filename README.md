@@ -210,16 +210,11 @@ helm repo add rasa-x https://rasahq.github.io/rasa-x-helm
 ```
 3. Head over and edit the `rasax/basic-values.yml` file. Specify the external IP address of your server and generate a random string for each of the secret and token properties. (You can take hints from the values.yaml files about what exactly you have to enter into the respective fields)<br>
 
-4. Add the official Rasa X Helm Chart to your repositories:
-```sh
-helm repo add rasa-x https://rasahq.github.io/rasa-x-helm
-```
-
-5. Install the Helm Chart into our namespace. Note that we also chose a custom release name `rasax-release`:
+4. Install the Helm Chart into our namespace. Note that we also chose a custom release name `rasax-release`:
 ```sh
 helm --namespace rasax install --values rasax/basic-values.yml rasax-release rasa-x/rasa-x
 ```
-6. Now the best part after installing a Helm Chart! Go ahead and check how your containers are creating and your pods are coming into life:
+5. Now the best part after installing a Helm Chart! Go ahead and check how your containers are creating and your pods are coming into life:
 ```sh
 kubectl -n rasax get pods
 ```
@@ -227,7 +222,7 @@ kubectl -n rasax get pods
 ![Pods of Rasa X Helm Chart Creating][Pod1-image]
 <br>
 
-7. Likewise you can check the services and see what ports are being used.:
+6. Likewise you can check the services and see what ports are being used.:
 ```sh
 kubectl -n rasax get pods
 ```
