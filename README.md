@@ -194,7 +194,7 @@ sudo snap alias microk8s.helm3 helm
 
 To follow this guide step-by-step I would recommend you to clone this repository. All of the upcoming commands assume you are in the root directory of this project:
 ```sh
-git clone git@github.com:Joelx/rasax-deployment-guide.git
+git clone https://github.com/Joelx/rasax-deployment-guide.git
 cd rasax-deployment-guide
 ```
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
