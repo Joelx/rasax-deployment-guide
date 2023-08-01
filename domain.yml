@@ -16,6 +16,11 @@ intents:
 - Make Update
 - None
 - Shutdown Computer
+- nlu_fallback
+- browsing internet
+- helped
+- mood_neutral
+- bot_no feelings
 entities:
 - Printer
 - SoftwareName

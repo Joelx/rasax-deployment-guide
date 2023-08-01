@@ -143,7 +143,24 @@ nlu:
 - intent: mood_unhappy
   examples: |
     - too bad
+    - alone
 - intent: greet
   examples: |
     - Hi
     - hi
+- intent: browsing internet
+  examples: |
+    - what you doing
+- intent: helped
+  examples: |
+    - yes
+- intent: mood_neutral
+  examples: |
+    - not too bad
+- intent: mood_great
+  examples: |
+    - very well
+    - good
+- intent: bot_no feelings
+  examples: |
+    - good how about you
