@@ -224,7 +224,7 @@ kubectl -n rasax get pods
 
 6. Likewise you can check the services and see what ports are being used.:
 ```sh
-kubectl -n rasax get pods
+kubectl -n rasax get services
 ```
 ![Services registered in our namespace ][Services1-image]
 
