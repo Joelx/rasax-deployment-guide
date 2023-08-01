@@ -21,6 +21,7 @@ intents:
 - helped
 - mood_neutral
 - bot_no feelings
+- Am a Bot
 entities:
 - Printer
 - SoftwareName
