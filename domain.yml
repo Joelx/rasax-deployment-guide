@@ -11,6 +11,15 @@ intents:
 - mood_unhappy
 - bot_challenge
 - test_action
+- Software Recommendation
+- Setup Printer
+- Make Update
+- None
+- Shutdown Computer
+entities:
+- Printer
+- SoftwareName
+- UbuntuVersion
 responses:
   utter_greet:
   - text: Hey! How are you?
