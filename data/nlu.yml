@@ -137,3 +137,13 @@ nlu:
     - Applications to replace [iTunes](SoftwareName) for iPod synchronization?
     - Is there LAN topology mapping software available in Ubuntu?
     - What is a good [MongoDB](SoftwareName) GUI client?
+- intent: deny
+  examples: |
+    - no
+- intent: mood_unhappy
+  examples: |
+    - too bad
+- intent: greet
+  examples: |
+    - Hi
+    - hi
