@@ -1506,6 +1506,7 @@ nlu:
     - let me speak to a real person
     - let me speak to a real person please
     - i want to talk to a real person
+    - I tried that, it did not help.
 - intent: install_rasa
   examples: |
     - how do I get rasa [core](product)
@@ -2175,7 +2176,6 @@ nlu:
     - is Rasa works with Unity3d?
     - rasa uses deep learning ?
     - i want to extract predefined entity from user query
-    - can you help
 - intent: restart
   examples: |
     - yep you can restart
@@ -2188,6 +2188,7 @@ nlu:
     - hey, i said restart
     - restart session pls
     - restart ps
+    - can you help
 - intent: greet
   examples: |
     - hey
@@ -2289,6 +2290,8 @@ nlu:
     - I need help with IT
     - what services do you offer?
     - Yes i tried that, but it did not work.
+    - my computer stopped working, can you help me fix it?
+    - can you hlep
 - intent: help_needed
   examples: |
     - my computer is not working

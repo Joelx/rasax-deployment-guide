@@ -35,3 +35,8 @@ stories:
   - action: utter_greet
   - intent: nlu_fallback
   - action: action_default_ask_rephrase
+- story: Story from Conversation ID 19ee58087fd644638bbb72fdc10e231e
+  steps:
+  - action: utter_solution
+  - intent: I can help you find
+  - action: handoff
