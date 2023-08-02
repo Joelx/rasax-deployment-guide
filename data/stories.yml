@@ -24,22 +24,8 @@ stories:
   - action: utter_did_that_help
   - intent: deny
   - action: utter_goodbye
-- story: Story from Conversation ID 053c271198a84796b759fc665fc759f4
+- story: Story from Conversation ID d3ee8d85791f453e92dbaeed7e9628ca
   steps:
-  - intent: greet
-  - action: utter_greet
-  - intent: Software Recommendation
-  - action: utter_greet
-  - intent: Software Recommendation
-  - action: utter_greet
-  - intent: Software Recommendation
-  - action: utter_greet
-  - intent: mood_unhappy
-  - action: utter_cheer_up
-  - action: utter_did_that_help
-  - intent: nlu_fallback
-  - action: utter_happy
-  - intent: Software Recommendation
-  - action: utter_greet
-  - intent: nlu_fallback
-  - action: utter_happy
+  - action: utter_solution
+  - intent: technical_question
+  - action: handoff

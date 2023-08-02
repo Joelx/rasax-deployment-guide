@@ -22,13 +22,48 @@ intents:
 - mood_neutral
 - bot_no feelings
 - Am a Bot
+- I can help you find
+- No access
+- help_needed
+- nlu_info
+- restart
+- ask_question_in_forum
+- ask_why_contribute
+- source_code
+- how_to_get_started
+- ask_which_events
+- switch
+- enter_data
+- pipeline_recommendation
+- technical_question
+- signup_newsletter
+- why_rasa
+- ask_how_contribute
+- nlu_generation_tool_recommendation
+- install_rasa
+- contact_sales
+- broken
+- book_demo
+- human_handoff
 entities:
 - Printer
 - SoftwareName
 - UbuntuVersion
+- job_function
+- product
+- current_api
+- language
+- name
+- user_type
+- company
+- nlu_part
+- install_type
+- location
+- entity
 responses:
   utter_greet:
-  - text: Hey! How are you?
+  - text: Welcome to Bizbro IT Solutions!
+  - text: Welcome! How may I help you?
   utter_cheer_up:
   - image: https://i.imgur.com/nGF1K8f.jpg
     text: 'Here is something to cheer you up:'
@@ -39,6 +74,22 @@ responses:
   utter_goodbye:
   - text: Bye
   utter_iamabot:
-  - text: I am a bot, powered by Rasa.
+  - text: I am a bot, brought to you by Bizbro IT Solutions
+  utter_solution:
+  - text: Did you try restarting your computer?
+  - text: Like powering it off and starting again.
+  utter_help:
+  - text: How can i help you today?
+  utter_ask:
+  - text: How can I help you?
+  utter_question:
+  - text: How can i help
+  utter_handoff:
+  - text: Not to worry, let me find you some help.
 actions:
 - action_hello_world
+- utter_solution
+- utter_ask
+- utter_question
+- utter_handoff
+- handoff
