@@ -29,3 +29,9 @@ stories:
   - action: utter_solution
   - intent: technical_question
   - action: handoff
+- story: Story from Conversation ID 308b8a5ef791432ab3ba60dcb6dd0edb
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - intent: nlu_fallback
+  - action: action_default_ask_rephrase

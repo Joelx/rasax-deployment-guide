@@ -2175,6 +2175,7 @@ nlu:
     - is Rasa works with Unity3d?
     - rasa uses deep learning ?
     - i want to extract predefined entity from user query
+    - can you help
 - intent: restart
   examples: |
     - yep you can restart
@@ -2287,12 +2288,12 @@ nlu:
     - how to troubleshoot slow computer
     - I need help with IT
     - what services do you offer?
-    - can you help
     - Yes i tried that, but it did not work.
 - intent: help_needed
   examples: |
     - my computer is not working
     - How to fix my computer
+    - its not working
 - intent: Am a Bot
   examples: |
     - what about you
