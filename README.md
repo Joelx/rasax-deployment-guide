@@ -435,7 +435,7 @@ docker build . -t YOUR-DOCKER-HUB-USERNAME/example-action-server:latest
 ```
 3. (Optional) Push to docker hub:
 ```sh
-docker build . -t YOUR-DOCKER-HUB-USERNAME/example-action-server:latest
+docker push YOUR-DOCKER-HUB-USERNAME/example-action-server:latest
 ```
 4. (Required) Edit `rasax/tls-values-with-actions.yml` to reflect your IP, domain and token + secret strings. <br>
    <br>
