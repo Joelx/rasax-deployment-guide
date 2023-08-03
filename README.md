@@ -194,7 +194,7 @@ sudo snap alias microk8s.helm3 helm
 
 To follow this guide step-by-step I would recommend you to clone this repository. All of the upcoming commands assume you are in the root directory of this project:
 ```sh
-git clone git@github.com:Joelx/rasax-deployment-guide.git
+git clone https://github.com/Joelx/rasax-deployment-guide.git
 cd rasax-deployment-guide
 ```
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
@@ -292,7 +292,7 @@ docker save rasa-webservice > rasa-webservice.tar
 ```
 3. Import the image to the local microk8s registry:
 ```sh
-docker save rasa-webservice > rasa-webservice.tar
+microk8s ctr image import rasa-webservice.tar
 ```
 4. Confirm that the image has been imported:
 ```sh
@@ -300,6 +300,8 @@ microk8s ctr images ls
 ```
 You can now remove the `rasa-webservice.tar` on your filesystem if you like.<br> 
 If you don't what the hazzle of storing your image on the local microk8s registry only, feel free to simply use a remote registry instead. In this case, make sure to edit the `k8s-configs/basic-webservice.yaml` to reference your username for Docker Hub. 
+
+(<b>Update:</b> Apparently there is a new, less complicated way of using local images with the micro8s registry: https://microk8s.io/docs/registry-images)
 
 #### Deploy Webservice
 Because the k8s LoadBalancer works on Layer 7, you need a Domain Name that points to the external IP Address of your server for the next step. Alternatively you can use services like https://nip.io/. 
