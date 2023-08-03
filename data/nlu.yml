@@ -1221,6 +1221,7 @@ nlu:
     - [interactive playground](product)
     - [rasa playground](product)
     - [Rasa X](product)
+    - name
 - intent: how_to_get_started
   examples: |
     - can you help me to build a bot
@@ -2304,10 +2305,10 @@ nlu:
     - who are you?
     - good and you?
     - i am good and you?
-    - good how about you
 - intent: No access
   examples: |
     - how's the weather?
+    - how is the weather?
 - intent: bot_no feelings
   examples: |
     - am well how about you?
@@ -2315,6 +2316,16 @@ nlu:
 - intent: browsing internet
   examples: |
     - is there any other response?
+- intent: Am well thanks. How may I help you?
+  examples: |
+    - good how about you
+    - how are you?
+- intent: name
+  examples: |
+    - what is your name
+- intent: Bizbro IT Solutions offers a wide spectrum of IT Services and Solutions. May I help you with a particular IT challenge?
+  examples: |
+    - What services do you offer?
 - synonym: english
   examples: |
     - Eng
@@ -2466,4 +2477,4 @@ nlu:
     - hey[^\s]*
 - regex: zipcode
   examples: |
-    - [0-9]{5}
+    - [0-9] [A-Z]{6}

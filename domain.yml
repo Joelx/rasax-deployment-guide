@@ -45,6 +45,9 @@ intents:
 - broken
 - book_demo
 - human_handoff
+- name
+- Am well thanks. How may I help you?
+- Bizbro IT Solutions offers a wide spectrum of IT Services and Solutions. May I help you with a particular IT challenge?
 entities:
 - Printer
 - SoftwareName
@@ -62,8 +65,7 @@ entities:
 - entity
 responses:
   utter_greet:
-  - text: Welcome to Bizbro IT Solutions!
-  - text: Welcome! How may I help you?
+  - text: Welcome to Bizbro IT Solutions! How may I help you?
   utter_cheer_up:
   - image: https://i.imgur.com/nGF1K8f.jpg
     text: 'Here is something to cheer you up:'
@@ -72,7 +74,7 @@ responses:
   utter_happy:
   - text: Great, carry on!
   utter_goodbye:
-  - text: Bye
+  - text: Thank you for visiting Bizbro.ca. Come back if you have any IT challenges. Bye
   utter_iamabot:
   - text: I am a bot, brought to you by Bizbro IT Solutions
   utter_solution:
@@ -83,9 +85,13 @@ responses:
   utter_ask:
   - text: How can I help you?
   utter_question:
-  - text: How can i help
+  - text: How may I help you?
   utter_handoff:
   - text: Not to worry, let me find you some help.
+  utter_name:
+  - text: My name is Dexter.
+  utter_services:
+  - text: Bizbro IT Solutions offers a wide spectrum of IT services. From all in one business IT (email, web, IT support) to custom solutions for Internet of Things (IoT), we can meet most requirements. Are you looking for anything in particular?
 actions:
 - action_hello_world
 - utter_solution
@@ -93,3 +99,4 @@ actions:
 - utter_question
 - utter_handoff
 - handoff
+- utter_name

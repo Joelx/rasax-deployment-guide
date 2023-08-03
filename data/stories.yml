@@ -44,3 +44,28 @@ stories:
   steps:
   - intent: greet
   - action: utter_greet
+- story: Story from Conversation ID d18fe27970464f0fb520d4d36eeff7ea
+  steps:
+  - intent: contact_sales
+  - action: utter_name
+- story: Story from Conversation ID fb418ce05e0e4d59b6294ea1e77ec9b3
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - intent: No access
+  - action: utter_greet
+  - intent: I can help you find
+  - action: handoff
+  - intent: I can help you find
+  - action: handoff
+  - intent: greet
+  - action: utter_greet
+  - intent: nlu_fallback
+  - action: action_default_ask_rephrase
+  - action: utter_iamabot
+- story: Story from Conversation ID 8e465eae16bc471190555e13337a45ad
+  steps:
+  - intent: nlu_fallback
+  - action: action_default_ask_rephrase
+  - intent: nlu_fallback
+  - action: utter_ask
