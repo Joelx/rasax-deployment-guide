@@ -40,3 +40,7 @@ stories:
   - action: utter_solution
   - intent: I can help you find
   - action: handoff
+- story: Story from Conversation ID dbdea663501046cd8f78a720d6560970
+  steps:
+  - intent: greet
+  - action: utter_greet
