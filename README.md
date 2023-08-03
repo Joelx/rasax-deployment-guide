@@ -241,7 +241,7 @@ You can log into the admin interface with the username `admin` and the string yo
 ### Integrate and train model
 
 There are multiple ways to load and use Rasa models. You could e.g. connect an external Rasa Open Source service to your deployment or you could use a model storage. However, in this case we use Rasa X with GitHub integration to manage our models.<br> 
-After logging into your Rasa X admin interface, head over and connect the GitHub repository containing your chatbot configuration. If you follow this guide step-by-step, you should already have cloned or forked this repistory. You can now connect your clone/fork with Rasa X. You can do this via the admin GUI and it is pretty straightforward. It will give you a SSH Key, which you have to provide to your GitHub account. <br/>
+After logging into your Rasa X admin interface, head over and connect the GitHub repository containing your chatbot configuration. If you follow this guide step-by-step, you should already have cloned or forked this repository. You can now connect your clone/fork with Rasa X. You can do this via the admin GUI and it is pretty straightforward. It will give you a SSH Key, which you have to provide to your GitHub account. <br/>
 <br/>
 After you have connected your GitHub account, Rasa X will synchronize your chatbot configuration. This can sometimes take a couple of minutes. If your configuration has been loaded successfully, you can train and activate your model from the Rasa X interface. <br>
 <br>
