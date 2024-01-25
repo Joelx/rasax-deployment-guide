@@ -4,43 +4,153 @@ recipe: default.v1
 
 # Configuration for Rasa NLU.
 # https://rasa.com/docs/rasa/nlu/components/
-language: en
+language: ar
 
-pipeline:
+
+pipeline: 
 # # No configuration for the NLU pipeline was provided. The following default pipeline was used to train your model.
 # # If you'd like to customize it, uncomment and adjust the pipeline.
 # # See https://rasa.com/docs/rasa/tuning-your-model for more information.
-#   - name: WhitespaceTokenizer
-#   - name: RegexFeaturizer
-#   - name: LexicalSyntacticFeaturizer
-#   - name: CountVectorsFeaturizer
-#   - name: CountVectorsFeaturizer
-#     analyzer: char_wb
-#     min_ngram: 1
-#     max_ngram: 4
-#   - name: DIETClassifier
-#     epochs: 100
-#     constrain_similarities: true
-#   - name: EntitySynonymMapper
-#   - name: ResponseSelector
-#     epochs: 100
-#     constrain_similarities: true
-#   - name: FallbackClassifier
-#     threshold: 0.3
-#     ambiguity_threshold: 0.1
+ 
+   - name: WhitespaceTokenizer
+    # Flag to check whether to split intents
+    #"intent_tokenization_flag": False
+    # Symbol on which intent should be split
+    #"intent_split_symbol": "_"
+    # Regular expression to detect tokens
+    #"token_pattern": None
+
+   - name: LanguageModelFeaturizer
+    # Name of the language model to use
+     model_name: "bert"
+    # Pre-Trained weights to be loaded
+     model_weights: "rasa/LaBSE"
+     cache_dir: "./bert_model"
+
+   - name: RegexFeaturizer
+  #  - name: LexicalSyntacticFeaturizer
+  #  - name: CountVectorsFeaturizer
+  #  - name: CountVectorsFeaturizer
+  #    analyzer: char_wb
+  #    min_ngram: 1
+  #    max_ngram: 4
+  #  - name: RegexEntityExtractor
+      # text will be processed with case insensitive as default
+      # case_sensitive: False
+      # use lookup tables to extract entities
+      # use_lookup_tables: True
+      # use regexes to extract entities
+     use_regexes: True
+      # use match word boundaries for lookup table
+      # use_word_boundaries: True
+   - name: DIETClassifier
+     epochs: 100
+     constrain_similarities: true
+     entity_recognition: false
+   #- name: EntitySynonymMapper
+  #  - name: ResponseSelector
+  #    epochs: 100
+  #    constrain_similarities: true
+  #    retrieval_intent : module_definitions
+
+  #  - name: ResponseSelector
+  #    epochs: 100
+  #    constrain_similarities: true
+  #    retrieval_intent : faq_module_1
+
+  #  - name: ResponseSelector
+  #    epochs: 100
+  #    constrain_similarities: true
+  #    retrieval_intent : faq_module_2
+
+  #  - name: ResponseSelector
+  #    epochs: 100
+  #    constrain_similarities: true
+  #    retrieval_intent : faq_module_3
+
+  #  - name: ResponseSelector
+  #    epochs: 100
+  #    constrain_similarities: true
+  #    retrieval_intent : faq_module_4
+
+  #  - name: ResponseSelector
+  #    epochs: 100
+  #    constrain_similarities: true
+  #    retrieval_intent : faq_module_5
+
+  #  - name: ResponseSelector
+  #    epochs: 100
+  #    constrain_similarities: true
+  #    retrieval_intent : faq_module_6
+
+  #  - name: ResponseSelector
+  #    epochs: 100
+  #    constrain_similarities: true
+  #    retrieval_intent : faq_module_7
+  #  - name: ResponseSelector
+  #    epochs: 100
+  #    constrain_similarities: true
+  #    retrieval_intent : faq_module_8
+  #  - name: ResponseSelector
+  #    epochs: 100
+  #    constrain_similarities: true
+  #    retrieval_intent : faq_module_9
+  #  - name: ResponseSelector
+  #    epochs: 100
+  #    constrain_similarities: true
+  #    retrieval_intent : faq_module_10
+  #  - name: ResponseSelector
+  #    epochs: 100
+  #    constrain_similarities: true
+  #    retrieval_intent : faq_module_11
+  #  - name: ResponseSelector
+  #    epochs: 100
+  #    constrain_similarities: true
+  #    retrieval_intent : faq_module_12
+  #  - name: ResponseSelector
+  #    epochs: 100
+  #    constrain_similarities: true
+  #    retrieval_intent : faq_module_13
+  #  - name: ResponseSelector
+  #    epochs: 100
+  #    constrain_similarities: true
+  #    retrieval_intent : faq_module_14
+  #  - name: ResponseSelector
+  #    epochs: 100
+  #    constrain_similarities: true
+  #    retrieval_intent : faq_module_15
+
+   - name: FallbackClassifier
+     threshold: 0.5
+     ambiguity_threshold: 0.1
 
 # Configuration for Rasa Core.
 # https://rasa.com/docs/rasa/core/policies/
-policies:
+policies: 
 # # No configuration for policies was provided. The following default policies were used to train your model.
 # # If you'd like to customize them, uncomment and adjust the policies.
 # # See https://rasa.com/docs/rasa/policies for more information.
-#   - name: MemoizationPolicy
-#   - name: RulePolicy
-#   - name: UnexpecTEDIntentPolicy
-#     max_history: 5
-#     epochs: 100
-#   - name: TEDPolicy
-#     max_history: 5
-#     epochs: 100
-#     constrain_similarities: true
+  - name: MemoizationPolicy
+  - name: RulePolicy
+    # Confidence threshold for the `core_fallback_action_name` to apply.
+    # The action will apply if no other action was predicted with
+    # a confidence >= core_fallback_threshold
+    core_fallback_threshold: 0.1
+    core_fallback_action_name: "action_default_fallback"
+    enable_fallback_prediction: True
+  # - name: UnexpecTEDIntentPolicy
+  #   max_history: 5
+  #   epochs: 100
+  - name: TEDPolicy
+    max_history: 7
+    epochs: 100
+    constrain_similarities: True
+
+training:
+  rasa:
+    data: "data/"
+  mlflow:
+    tracking_uri: "http://localhost:5000"
+    
+assistant_id: 20231019-155141-coffee-staff
+

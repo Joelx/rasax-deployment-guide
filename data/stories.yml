@@ -1,26 +1,205 @@
-version: "3.0"
+version: "3.1"
+
 stories:
-- story: happy path
+
+
+# - story: User affirms to navigate data
+#   steps:
+#   - intent: ask_navigate_data
+#   - action: action_ask_navigate_data
+
+
+- story: accept to navigate  
   steps:
-  - intent: greet
-  - action: utter_greet
-  - intent: mood_great
-  - action: utter_happy
-- story: sad path 1
+  - intent: ask_navigate_data
+  - action: utter_ask_me
+  # - action: utter_instructions
+  - intent: Type
+  - action: action_log_conversation
+  # - action: action_export_to_excel
+  - action: action_get_user_question
+  - intent: inform_module
+    entities:
+      - entity: "module_id"
+  - action: action_get_module_id
+  - action: action_get_situations
+
+- story: change module
   steps:
-  - intent: greet
-  - action: utter_greet
-  - intent: mood_unhappy
-  - action: utter_cheer_up
-  - action: utter_did_that_help
-  - intent: affirm
-  - action: utter_happy
-- story: sad path 2
+    - action: action_get_situations
+    - intent: rechoisir_module
+    - action: action_reselect_module
+    - intent: inform_module
+      entities:
+        - entity: "module_id"
+    - action: action_get_module_id
+    - action: action_get_situations
+    
+- story: get questions
   steps:
-  - intent: greet
-  - action: utter_greet
-  - intent: mood_unhappy
-  - action: utter_cheer_up
-  - action: utter_did_that_help
+    - action: action_get_situations
+    - intent: inform_module
+      entities:
+        - entity: "situation_id"
+    - action: action_get_situation_id
+    - action: action_get_questions
+
+- story: get response
+  steps:
+    - action: action_get_questions
+    - intent: inform_module
+      entities:
+        - entity: "question_id"
+    - action: action_get_question_id
+    - action: action_get_response
+    
+    # - action: utter_menu
+
+- story: User denies to navigate data
+  steps:
+  - action: utter_ask_me
   - intent: deny
-  - action: utter_goodbye
+  - action: action_stop_navigation 
+
+- story: display modules definition
+  steps:
+  - intent: ask_definition
+  - action: action_utter_module_buttons
+
+- story: module1_def
+  steps:
+  - intent: ask_definition
+  - action: action_utter_module_buttons
+  - intent: paylod_definitions
+  - action: action_get_module_definitions2
+  - action: utter_menu
+
+# - story: module1_def2
+#   steps:
+#   - intent: ask_definition
+#   - action: utter_definitions
+#   - intent: module_definitions2
+#   - action: utter_module_definitions2
+#   - action: utter_menu
+# - story: module1_def3
+#   steps:
+#   - intent: ask_definition
+#   - action: utter_definitions
+#   - intent: module_definitions3
+#   - action: utter_module_definitions3
+#   - action: utter_menu
+
+# - story: module1_def4
+#   steps:
+#   - intent: ask_definition
+#   - action: utter_definitions
+#   - intent: module_definitions4
+#   - action: utter_module_definitions4
+#   - action: utter_menu
+
+# - story: module1_def5
+#   steps:
+#   - intent: ask_definition
+#   - action: utter_definitions
+#   - intent: module_definitions5
+#   - action: utter_module_definitions5
+#   - action: utter_menu
+
+# - story: module1_def6
+#   steps:
+#   - intent: ask_definition
+#   - action: utter_definitions
+#   - intent: module_definitions6
+#   - action: utter_module_definitions6
+#   - action: utter_menu
+
+# - story: module1_def7
+#   steps:
+#   - intent: ask_definition
+#   - action: utter_definitions
+#   - intent: module_definitions7
+#   - action: utter_module_definitions7
+#   - action: utter_menu
+
+# - story: module1_def8
+#   steps:
+#   - intent: ask_definition
+#   - action: utter_definitions
+#   - intent: module_definitions8
+#   - action: utter_module_definitions8
+#   - action: utter_menu
+
+# - story: module1_def9
+#   steps:
+#   - intent: ask_definition
+#   - action: utter_definitions
+#   - intent: module_definitions9
+#   - action: utter_module_definitions9
+#   - action: utter_menu
+
+# - story: module1_def10
+#   steps:
+#   - intent: ask_definition
+#   - action: utter_definitions
+#   - intent: module_definitions10
+#   - action: utter_module_definitions10
+#   - action: utter_menu
+
+# - story: module1_def11
+#   steps:
+#   - intent: ask_definition
+#   - action: utter_definitions
+#   - intent: module_definitions11
+#   - action: utter_module_definitions11
+#   - action: utter_menu
+
+# - story: module1_def12
+#   steps:
+#   - intent: ask_definition
+#   - action: utter_definitions
+#   - intent: module_definitions12
+#   - action: utter_module_definitions12
+#   - action: utter_menu
+
+# - story: module1_def13
+#   steps:
+#   - intent: ask_definition
+#   - action: utter_definitions
+#   - intent: module_definitions13
+#   - action: utter_module_definitions13
+#   - action: utter_menu
+
+# - story: module1_def14
+#   steps:
+#   - intent: ask_definition
+#   - action: utter_definitions
+#   - intent: module_definitions14
+#   - action: utter_module_definitions14
+#   - action: utter_menu
+
+
+
+
+# - rule: do need help
+#   steps:
+#   - intent: greet
+#   - action: utter_hello
+#   - action: utter_need_help
+
+# - rule: don't need help
+#   steps:
+#   - action: utter_need_help
+#   - intent: deny
+#   - action: utter_asuwish
+  
+# - rule: confirm need help
+#   steps:
+#   - action: utter_need_help
+#   - intent: affirm
+#   - action: utter_ask_me
+
+# - rule: don't ask
+#   steps:
+#   - action: utter_ask_me
+#   - intent: deny
+#   - action: utter_asuwish

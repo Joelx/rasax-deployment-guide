@@ -1,14 +1,132 @@
-version: "3.0"
+version: "3.1"
+
+
 rules:
+
+- rule: thanks
+  steps:
+  - intent: thanks
+  - action: utter_thanks
+
+
+- rule: Ask the user to rephrase whenever they send a message with low NLU confidence
+  steps:
+  - intent: nlu_fallback
+  - action: utter_please_rephrase
+  - action: utter_menu_fallback
+- rule: greet
+  steps:
+  - intent: greet
+  - action: utter_hello
+  - action: utter_menu_greet
+  # - action: action_guidance
+
+
+#   - action: utter_need_help
+
+# - rule: don't need help
+#   steps:
+#   - action: utter_need_help
+#   - intent: deny
+#   - action: utter_asuwish
+  
+# - rule: confirm need help
+#   steps:
+#   - action: utter_need_help
+#   - intent: affirm
+#   - action: utter_ask_me
+
+# - rule: don't ask
+#   steps:
+#   - action: utter_ask_me
+#   - intent: deny
+#   - action: utter_asuwish
+
 - rule: Say goodbye anytime the user says goodbye
   steps:
   - intent: goodbye
   - action: utter_goodbye
+
 - rule: Say 'I am a bot' anytime the user challenges
   steps:
   - intent: bot_challenge
   - action: utter_iamabot
-- rule: Test custom action
-  steps:
-  - intent: test_action
-  - action: action_hello_world
+  - action: utter_menu
+
+
+
+# - rule: response_faq_module_1
+#   steps: 
+#   - intent: faq_module_1
+#   - action: utter_faq_module_1
+
+# - rule: response_faq_module_2
+#   steps: 
+#   - intent: faq_module_2
+#   - action: utter_faq_module_2
+
+# - rule: response_faq_module_3
+#   steps: 
+#   - intent: faq_module_3
+#   - action: utter_faq_module_3
+
+# - rule: response_faq_module_4
+#   steps: 
+#   - intent: faq_module_4
+#   - action: utter_faq_module_4
+
+# - rule: response_faq_module_5
+#   steps: 
+#   - intent: faq_module_5
+#   - action: utter_faq_module_5
+
+# - rule: response_faq_module_6
+#   steps: 
+#   - intent: faq_module_6
+#   - action: utter_faq_module_6
+
+# - rule: response_faq_module_7
+#   steps: 
+#   - intent: faq_module_7
+#   - action: utter_faq_module_7
+
+# - rule: response_faq_module_8
+#   steps: 
+#   - intent: faq_module_8
+#   - action: utter_faq_module_8
+
+# - rule: response_faq_module_9
+#   steps: 
+#   - intent: faq_module_9
+#   - action: utter_faq_module_9
+
+# - rule: response_faq_module_10
+#   steps: 
+#   - intent: faq_module_10
+#   - action: utter_faq_module_10
+
+# - rule: response_faq_module_11
+#   steps: 
+#   - intent: faq_module_11
+#   - action: utter_faq_module_11
+
+# - rule: response_faq_module_12
+#   steps: 
+#   - intent: faq_module_12
+#   - action: utter_faq_module_12
+
+# - rule: response_faq_module_13
+#   steps: 
+#   - intent: faq_module_13
+#   - action: utter_faq_module_13
+
+# - rule: response_faq_module_14
+#   steps: 
+#   - intent: faq_module_14
+#   - action: utter_faq_module_14
+
+# - rule: response_faq_module_15
+#   steps: 
+#   - intent: faq_module_15
+#   - action: utter_faq_module_15
+
