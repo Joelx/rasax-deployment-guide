@@ -146,11 +146,6 @@ policies:
     epochs: 100
     constrain_similarities: True
 
-training:
-  rasa:
-    data: "data/"
-  mlflow:
-    tracking_uri: "http://localhost:5000"
     
 assistant_id: 20231019-155141-coffee-staff
 
