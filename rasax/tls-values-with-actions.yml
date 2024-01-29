@@ -1,15 +1,15 @@
 # debugMode enables / disables the debug mode for Rasa and Rasa X
 debugMode: true
 nginx:
-  enabled: true
-  subPath: "/rasax"
+#  enabled: true
+#  subPath: "/rasax"
   #customConfConfigMap: "custom-nginx-conf"
   #certificateSecret: "rasa-webservice-ingress-tls"    
   service:
     enabled: true
     # connect LoadBalancer directly to VMs' internal IP
     # You get this value with: $ hostname -I
-    externalIPs: [YOUR.SERVERS.IP.ADDRESS]
+    externalIPs: [35.226.208.22]
 
 rasax:
     # initialUser is the user which is created upon the initial start of Rasa X
@@ -24,10 +24,10 @@ rasax:
     jwtSecret: "AnotherSecureRandomString"
     # tag refers to the Rasa X image tag
     tag: "1.1.4"
-    extraEnvs:
-      - name: ROOT_URL
-        #value: "localhost/rasa-x"
-        value: "https://EXAMPLE.COM/rasax"
+    #extraEnvs:
+    #  - name: ROOT_URL
+    #    #value: "localhost/rasa-x"
+    #    value: "http://35.226.208.22/rasax"
 rasa:
     # token Rasa accepts as authentication token from other Rasa services
     token: "AnotherSecureRandomString"
@@ -63,5 +63,5 @@ global:
         password: "AnotherSecureRandomString"
 app:
   install: true
-  name: "<YOUR-DOCKER-HUB-USERNAME>/example-action-server"
-  tag: "<YOUR-DOCKER-HUB-IMAGE-TAG>"
+  name: "localhost:32000/rasax-deployment-guide"
+  tag: "0.0.1"
