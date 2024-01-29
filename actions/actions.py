@@ -24,9 +24,9 @@ import numpy as np
 from pprint import pprint
 
 BERTmodel_names=['paraphrase-multilingual-MiniLM-L12-v2','medmediani/Arabic-KW-Mdel','Ezzaldin-97/STS-Arabert','distiluse-base-multilingual-cased-v1','sentence-transformers/LaBSE']
-# data_path="my data/BASE8RGPH24V1_all_12_12_ID"
-data_path="my data/BASE8RGPH24V4_all_18_12_ID"
-data_path='my data/BASE8RGPH24V5_all_08_01_ID'
+# data_path="mydata/BASE8RGPH24V1_all_12_12_ID"
+data_path="mydata/BASE8RGPH24V4_all_18_12_ID"
+data_path='mydata/BASE8RGPH24V5_all_08_01_ID'
 
 df=pd.read_excel(data_path +'.xlsx')
 unique_values_dict = {k[1]: (k[0][0],k[0][1],v,"situation") for k, v in dict(dict(zip(zip(zip(df["Situation_ID"], df["Module_ID"]), df['Situation ']),df["Situation_ID"]))).items() if (pd.notna(v) and v!='')}
