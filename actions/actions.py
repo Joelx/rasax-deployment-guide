@@ -21,7 +21,8 @@ import pickle
 import pandas as pd
 from tqdm import  tqdm
 import numpy as np
-from pprint import pprint
+from pprint import print
+
 
 BERTmodel_names=['paraphrase-multilingual-MiniLM-L12-v2','medmediani/Arabic-KW-Mdel','Ezzaldin-97/STS-Arabert','distiluse-base-multilingual-cased-v1','sentence-transformers/LaBSE']
 # data_path="mydata/BASE8RGPH24V1_all_12_12_ID"
@@ -47,7 +48,6 @@ with open('unique_values_dict.txt', 'w',encoding='utf-8') as file:
         file.write(f"{key}: {value}\n")
         file.write(f"-----------------------------------------------------\n")
 
-        
 BERTmodel_name=BERTmodel_names[0]
 BERT_model=SentenceTransformer(BERTmodel_name )
 pkl_path=data_path+BERTmodel_name.split('/')[0]+'situations_embeddings.pkl'
