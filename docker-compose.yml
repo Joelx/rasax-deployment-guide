@@ -1,0 +1,8 @@
+version: '3.7'
+services:
+  rasax-deployment-guide:
+    build: .
+    # tag it with the registry of microk8s
+    image: localhost:32000/rasax-deployment-guide:0.0.1
+    expose:
+      - "5055"
