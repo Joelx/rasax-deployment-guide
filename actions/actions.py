@@ -21,7 +21,7 @@ import pickle
 import pandas as pd
 from tqdm import  tqdm
 import numpy as np
-from pprint import print
+# from pprint import pprint
 
 
 BERTmodel_names=['paraphrase-multilingual-MiniLM-L12-v2','medmediani/Arabic-KW-Mdel','Ezzaldin-97/STS-Arabert','distiluse-base-multilingual-cased-v1','sentence-transformers/LaBSE']
