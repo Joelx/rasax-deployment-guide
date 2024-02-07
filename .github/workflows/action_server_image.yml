@@ -2,7 +2,7 @@ on:
   push:
     branches:
     # Make sure to update to your correct branch
-      - master
+      - chatbot
     paths:
     - 'actions/**'
 
@@ -13,18 +13,18 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2
-
     - id: action_server
       name: Build an action server with a custom actions
       uses: RasaHQ/action-server-gha@main
       # Full list of parameters: https://github.com/RasaHQ/action-server-gha/tree/master#input-arguments
       with:
-        docker_image_name: '<YOUR-DOCKER-HUB-USERNAME>/example-action-server'
+        docker_image_name: 'ayoubberd/example-action-server'
         docker_registry_login: ${{ secrets.DOCKER_HUB_LOGIN }}
         docker_registry_password: ${{ secrets.DOCKER_HUB_PASSWORD }}
         # More details about github context:
         # https://docs.github.com/en/actions/reference/context-and-expression-syntax-for-github-actions#github-context
         #
         # github.sha - The commit SHA that triggered the workflow run
+        rasa_sdk_version: 3.1.3
         docker_image_tag: ${{ github.sha }}
         requirements_file: 'actions/requirements.txt'
